@@ -1,0 +1,44 @@
+{
+  "name": "your-awesome-website-basic-website-template-node",
+  "version": "1.0.0",
+  "description": "YOUR PROJECT DESCRIPTION GOES HERE",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amyhua/basic-website-template-node.git"
+  },
+  "keywords": [
+    "Girls",
+    "Who",
+    "Code",
+    "website",
+    "template",
+    "node"
+  ],
+  "author": "YOUR NAME GOES HERE",
+  "bugs": {
+    "url": "https://github.com/amyhua/basic-website-template-node/issues"
+  },
+  "homepage": "https://github.com/amyhua/basic-website-template-node#readme",
+  "dependencies": {
+    "cors":"^2.8.5",
+    "express": "^4.14.0",
+    "http": "0.0.0",
+    "nodemon": "^1.11.0",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.7",
+    "framer-motion": "^4",
+    "fs-extra": "^10.0.0",
+    "ganache-cli": "^6.12.2",
+    "mocha": "^8.3.2",
+    "next": "10.2.0",
+    "node-fetch": "^2.6.1",
+    "solc": "^0.4.17",
+    "truffle-hdwallet-provider": "^1.0.17",
+    "web3": "^1.3.5"
+  }
+}
