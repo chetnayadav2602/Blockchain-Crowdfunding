@@ -1,0 +1,14 @@
+
+
+<p>view-contracts works!</p>
+<div>
+    <input type="button" value="View Contracts" (click)="getContracts()">
+    <input type="button" value="Create Contract" routerLink="/app-campaign-factory">
+    <ul>
+        <li *ngFor="let user of temp; let i = index;">
+          {{i + 1}}. {{ user }}
+        </li>
+      </ul>
+    <!-- <span>{{ temp }} app is running!</span> -->
+</div>
+
