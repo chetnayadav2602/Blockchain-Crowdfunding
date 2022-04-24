@@ -3,7 +3,7 @@
 // import config from './config.js';
 // import compiledFactory from './build/Whitelist.json' assert {type: 'json'};
 
-const web3 = require('web3');
+const web3 = require('./web3.js');
 const config = require('./config.js');
 const HDWalletProvider = require('truffle-hdwallet-provider');
 const compiledFactory = require('./build/Whitelist.json');
