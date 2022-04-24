@@ -29,26 +29,4 @@ const deploy = async () => {
     console.log('Contract deploy to ', result.options.address);
 };
 
-// deploy();
-
-async function createCampaign() {
-    const accounts = await web3.eth.getAccounts();
-    console.log(accounts);
-    console.log("Creating campaign");
-    await factory.methods
-        .createCampaign(
-            web3.utils.toWei("0.001", "ether"),
-            "ABC",//"data.campaignName",
-            "ABC",//data.description",
-            "https://www.google.com/imgres?imgurl=https%3A%2F%2Fmedia.istockphoto.com%2Fphotos%2Fbaked-chicken-wings-with-sesame-seeds-and-sweet-chili-sauce-on-white-picture-id835903320%3Fk%3D20%26m%3D835903320%26s%3D612x612%26w%3D0%26h%3DWp2m7pcihAU4g7RcVW4Pabex1skrouzJwvWCR1-cGUs%3D&imgrefurl=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Fchicken-wing&tbnid=_4J1dGmTbTWPUM&vet=12ahUKEwi75OT93Zn3AhUBomoFHZFoCQgQMygBegUIARCvAg..i&docid=iJN_zY001bWu3M&w=612&h=490&q=chicken%20wings%20image&ved=2ahUKEwi75OT93Zn3AhUBomoFHZFoCQgQMygBegUIARCvAg",//imageUrl,
-            web3.utils.toWei("1", "ether")
-        )
-        .send({
-            from: accounts[0],
-        });
-    console.log("Creating camaign: Successful");
- }
-
- createCampaign();
- createCampaign();
- createCampaign();
+deploy();
