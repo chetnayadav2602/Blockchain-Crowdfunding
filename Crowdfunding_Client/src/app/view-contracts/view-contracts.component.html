@@ -1,0 +1,18 @@
+
+
+<p>view-contracts works!</p>
+<div>
+
+    <div style="width: fit-content; margin: auto;">
+      <input type="button" value="View Campaigns" (click)="getContracts()" class="btn btn-dark" style="margin: 30px; font-family: Lato;">
+      <input type="button" value="Create Campaign" routerLink="/app-campaign-factory" class="btn btn-dark" style="font-family: Lato;">
+    </div>
+
+    <ul class="list-group">
+        <li *ngFor="let user of temp; let i = index;" class="list-group-item list-group-item-action" style="font-family: Lato;">
+          {{i + 1}}. {{ user }}
+        </li>
+    </ul>
+    <!-- <span>{{ temp }} app is running!</span> -->
+</div>
+

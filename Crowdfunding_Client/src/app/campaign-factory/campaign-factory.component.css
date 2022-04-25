@@ -1,0 +1,17 @@
+.container {
+    margin: auto;
+    padding-right: 10%;
+    padding-left: 10%;
+
+} 
+
+h1 {
+    font-family: 'Staatliches';
+    padding-top: 50px;
+}
+
+.form-label {
+    font-family: 'Lato';
+}
+
+

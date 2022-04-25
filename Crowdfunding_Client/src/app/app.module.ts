@@ -5,16 +5,20 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CampaignFactoryComponent } from './campaign-factory/campaign-factory.component';
+import { ViewContractsComponent } from './view-contracts/view-contracts.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CampaignFactoryComponent
+    CampaignFactoryComponent,
+    ViewContractsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
