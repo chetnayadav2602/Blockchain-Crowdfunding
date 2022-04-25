@@ -12,8 +12,10 @@ export class ViewContractsComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
+    this.getContracts();
   }
 
+  
   public model : any;
   //title = 'my-crowdfunding';
   temp : any
@@ -21,6 +23,16 @@ export class ViewContractsComponent implements OnInit {
     this.http.get("http://localhost:5000/getCampaings").subscribe(model => this.temp = model);
   }
 
+  //public permModel : any;
+  //title = 'my-crowdfunding';
+  temp1 : any;
+  public getPendingApprovals(){
+    //this.http.get("http://localhost:5000/getCampaings").subscribe(permModel => this.temp1 = permModel);
+    this.temp1=['PERM1','PERM2'];
+    
+  }
 
+
+  
 
 }

@@ -7,14 +7,12 @@ import { AppComponent } from './app.component';
 import { CampaignFactoryComponent } from './campaign-factory/campaign-factory.component';
 import { ViewContractsComponent } from './view-contracts/view-contracts.component';
 import { FormsModule } from '@angular/forms';
-import { SendKYCComponent } from './send-kyc/send-kyc.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CampaignFactoryComponent,
-    ViewContractsComponent,
-    SendKYCComponent
+    ViewContractsComponent
   ],
   imports: [
     BrowserModule,

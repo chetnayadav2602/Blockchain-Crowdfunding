@@ -300,28 +300,25 @@
       visibility: hidden;
     }
   }
+
+  .login {
+    float: right;
+  }
 </style>
 
 <!-- Toolbar -->
 <div class="toolbar" role="banner">
 
-  
-  <input type="button" value="Route" routerLink="/app-view-contracts">
     
 </div>
 
+
+
 <div class="content" role="main">
 
-  <!-- Highlight Card -->
-  <div class="card highlight-card card-small">
-
-   
-
-   
-
-
-  </div>
-
+ 
  
 </div>
+<input class = "btn btn-primary"  type="button" value="Login" (click)="login()" *ngIf=!isUserLoggedIn>
+
 <router-outlet></router-outlet>
