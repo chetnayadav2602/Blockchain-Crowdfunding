@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'; 
 import { Campaign } from 'src/models/capmaign.model';
+import { LoggedInUserService } from './services/logged-in-user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -18,8 +20,16 @@ export class AppComponent {
     }),
   };
  
-  constructor(private http: HttpClient) {} 
+  constructor(private http: HttpClient, private logInService: LoggedInUserService, private router: Router ) {} 
 
- 
+  public async login(){
+
+    //@ts-ignore
+    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+    const account = accounts[0];
+    console.log(account);
+    window.location.replace("/app-view-contracts");
+    
+  }
 
 }

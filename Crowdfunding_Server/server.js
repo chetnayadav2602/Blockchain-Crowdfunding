@@ -4,7 +4,7 @@ var path = require('path');
 var express = require('express');
 var cors = require('cors')
 
-var { hellomsg, fetchDeployedCampaigns, getSummary} = require('./server/smart-contract/api');
+var { hellomsg, fetchDeployedCampaigns, getSummary, createCampaign} = require('./server/smart-contract/api');
 
 
 var router = express();
@@ -21,7 +21,7 @@ server.listen(process.env.PORT || 5000, process.env.IP || "0.0.0.0", function(){
 
 
 router.get('/hello',function(req,res) {
-    res.send({'name':'Chetna'});
+    res.send({'name':'Crowdfunding Project Landing!!'});
 });
 
 router.get('/getCampaings',function(req,res) {
@@ -39,5 +39,16 @@ router.get('/getCampaignSummary',function(req,res) {
     res.send(value);
     console.log("Got api response");
   });
+});
 
+router.post('/postCampaings',function(req,res) {
+  console.log("Called Create Campaign");
+  console.log(req.query)
+  console.log("Campaign name = "+req.query.cname+", Campaign Desc "+ req.query.cdesc);
+  createCampaign(req.query.cname,req.query.cdesc,req.query.cimage).then((value) => {
+    console.log(value);
+    res.send(value);
+    console.log("Got api response");
+  });
+  res.send({'message' : "Called Create Campaign"});
 });
