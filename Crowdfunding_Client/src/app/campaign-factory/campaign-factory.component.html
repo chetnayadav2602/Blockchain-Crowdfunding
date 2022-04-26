@@ -1,5 +1,6 @@
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<link rel="stylesheet" href="campaign-factory.component.css">
 
 <div class="container">
 
@@ -15,12 +16,12 @@
 
     <form #postCampForm = "ngForm" (ngSubmit)="SubmitDetails(postCampForm.value)">
         
-        {{ postCampForm.value | json }}
+         {{ postCampForm.value | json }} 
 
         <div class="form-group">
-            
-                <label class="form-label" for="cname">Campaign Name</label><br>
-                <input type="text" name="cname" class = "form-control" ngModel>
+        
+            <label class="form-label" for="cname">Campaign Name</label><br>
+            <input type="text" name="cname" class = "form-control" ngModel>
             
         </div>
 
@@ -29,6 +30,7 @@
         <div class="form-group">
             <label class="form-label" for="cdesc">Campaign Description</label><br>
             <input type="text" name="cdesc" class = "form-control"    ngModel>
+            
         </div>
 
         <pre></pre>
@@ -36,10 +38,11 @@
         <div class="form-group">
             <label class="form-label" for="cimage">Image</label><br>
             <input type="text" name="cimage" class = "form-control" ngModel>
+            
         </div>
 
         <pre></pre>
-        <button class="btn btn-primary" type="submit">Submit</button>
+        <button class="btn btn-dark" type="submit">Submit</button>
         </form>
         
 

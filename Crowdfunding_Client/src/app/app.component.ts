@@ -30,7 +30,11 @@ export class AppComponent {
     this.isUserLoggedIn = this.logInService.isLoggedIn;
     console.log(this.isUserLoggedIn);
     console.log("Login successful");
-    this.router.navigate(['/app-view-contracts']);
+    if(this.isUserLoggedIn){
+      this.router.navigate(['/app-view-contracts']);
+    }
+      
+      
   }
 
 }
