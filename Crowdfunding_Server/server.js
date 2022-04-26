@@ -5,7 +5,7 @@ var express = require('express');
 var cors = require('cors');
 const bodyParser = require('body-parser');
 
-var { fetchDeployedCampaigns, getSummary, createCampaign,createKYCRequest,approveKYCRequest,rejectKYCRequest,addAddressToFundRaiser,fetchKYCRequests,getDeployedCampaignsDetails,getRolesOfUser,addAddressToFundApprover} = require('./server/smart-contract/api');
+var { fetchDeployedCampaigns, getSummary, createCampaign,createKYCRequest,approveKYCRequest,rejectKYCRequest,addAddressToFundRaiser,fetchKYCRequests,getDeployedCampaignsDetails,getRolesOfUser,addAddressToFundApprover,contribute} = require('./server/smart-contract/api');
 
 
 var router = express();
@@ -29,29 +29,13 @@ router.get('/hello',function(req,res) {
     res.send({'name':'Crowdfunding Project Landing!!'});
 });
 
-router.get('/getCampaigns',function(req,res) {
-  fetchDeployedCampaigns().then((value) => {
+router.post('/getRolesOfUser',function(req,res) {
+  console.log("Called getRolesOfUser");
+  console.log(req.body);
+  getRolesOfUser(req.body.user_address).then((value) => {
     console.log(value);
     res.send(value);
-    console.log("Got api response");
-  });
-
-});
-
-router.get('/getCampaignSummary',function(req,res) {
-  getSummary("0x2723B4F6D4690668B4130049b1b963F696Da74b7").then((value) => {
-    console.log(value);
-    res.send(value);
-    console.log("Got api response");
-  });
-});
-
-router.post('/postCampaigns',function(req,res) {
-  console.log("Called Create Campaign");
-  createCampaign(req.body.cname,req.body.cdesc,req.body.cimage).then((value) => {
-    console.log(value);
-    res.send({'message':'Campaign created successfully'});
-    console.log("Got api response : postCampaigns");
+    console.log("Got api response : getRolesOfUser");
   });
 });
 
@@ -93,16 +77,6 @@ router.get('/fetchKYCRequests',function(req,res) {
   });
 });
 
-router.post('/getUserRole',function(req,res) {
-  console.log("Called getUserRole");
-  console.log(req.query)
-  createKYCRequest(req.query.user_address).then((value) => {
-    console.log(value);
-    res.send(value);
-    console.log("Got api response : getUserRole");
-  });
-});
-
 router.post('/addAddressToFundRaiser',function(req,res) {
   console.log("Called addAddressToFundRaiser");
   addAddressToFundRaiser(req.body.user_address).then((value) => {
@@ -120,6 +94,41 @@ router.post('/addAddressToFundApprover',function(req,res) {
 });
 
 
+
+router.post('/postCampaigns',function(req,res) {
+  console.log("Called Create Campaign");
+  createCampaign(req.body.cname,req.body.cdesc,req.body.cimage).then((value) => {
+    console.log(value);
+    res.send({'message':'Campaign created successfully'});
+    console.log("Got api response : postCampaigns");
+  });
+});
+
+router.get('/getCampaigns',function(req,res) {
+  fetchDeployedCampaigns().then((value) => {
+    console.log(value);
+    res.send(value);
+    console.log("Got api response");
+  });
+});
+
+router.get('/getCampaignSummary',function(req,res) {
+  getSummary(req.body.caddr).then((value) => {
+    console.log(value);
+    res.send(value);
+    console.log("Got api response");
+  });
+});
+
+router.post('/contribute',function(req,res) {
+  console.log("Calling contribute api");
+  contribute(req.body.caddr,req.body.amount).then((value) => {
+    console.log(value);
+    res.send({'message':'Contribution to campaign done successfully'});
+    console.log("Got api response Contribute");
+  });
+});
+
 router.get('/getDeployedCampaignsDetails',function(req,res) {
   console.log("Called getDeployedCampaignsDetails");
   getDeployedCampaignsDetails().then((value) => {
@@ -129,12 +138,3 @@ router.get('/getDeployedCampaignsDetails',function(req,res) {
   });
 });
 
-router.post('/getRolesOfUser',function(req,res) {
-  console.log("Called getRolesOfUser");
-  console.log(req.body);
-  getRolesOfUser(req.body.user_address).then((value) => {
-    console.log(value);
-    res.send(value);
-    console.log("Got api response : getRolesOfUser");
-  });
-});

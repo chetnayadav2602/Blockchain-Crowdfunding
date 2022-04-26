@@ -148,6 +148,25 @@ async function getSummary(contract_address) {
     return val;
 }
 
+
+async function contribute(contract_address, amount) {
+    console.log("Contribute to campaign called");
+    const accounts = await web3.eth.getAccounts();
+    console.log(accounts);
+    const campaign = new web3.eth.Contract(
+        Campaign.abi,
+        contract_address
+    );
+    const val = await campaign.methods.contribute().send({
+        from: accounts[0],
+        value : web3.utils.toWei(amount, "ether")
+    });
+    console.log(val);
+    console.log("Contribute to campaign called : Successful");
+    return val;
+}
+
+
 async function getDeployedCampaignsDetails() {
     const addresses = await factory.methods.getDeployedCampaigns().call();
     console.log(addresses);
@@ -177,13 +196,6 @@ async function getDeployedCampaignsDetails() {
 }
 
 
-async function getUserRole(contract_address) {
-    console.log("Calling getUserRole ");
-    const val = await campaign.methods.getSummary(contract_address).call();
-    console.log(val);
-    console.log("Calling getUserRole : Successful");
-    return val;
-}
 
 
 
@@ -195,10 +207,10 @@ module.exports = {
     createKYCRequest: createKYCRequest,
     approveKYCRequest: approveKYCRequest,
     rejectKYCRequest: rejectKYCRequest,
-    getUserRole, getUserRole,
     addAddressToFundRaiser: addAddressToFundRaiser,
     addAddressToFundApprover: addAddressToFundApprover,
     fetchKYCRequests: fetchKYCRequests,
     getDeployedCampaignsDetails: getDeployedCampaignsDetails,
-    getRolesOfUser: getRolesOfUser
+    getRolesOfUser: getRolesOfUser,
+    contribute: contribute
 }
