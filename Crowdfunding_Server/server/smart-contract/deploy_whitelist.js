@@ -1,7 +1,6 @@
 const web3 = require('./web3.js');
 const compiledFactory = require('./build/Whitelist.json');
 
-
 const deploy = async () => {
     const accounts = await web3.eth.getAccounts();
     console.log(accounts);
@@ -10,8 +9,6 @@ const deploy = async () => {
     const result = await new web3.eth.Contract(compiledFactory.abi)
         .deploy({ data: '0x' + compiledFactory.evm.bytecode.object })
         .send({ from: accounts[0]
-        // gas: 1000000,
-        // gasPrice: web3.utils.toWei("40",'gwei')
     });
 
     console.log('Contract deploy to ', result.options.address);
