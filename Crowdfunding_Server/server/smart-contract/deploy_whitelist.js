@@ -1,27 +1,18 @@
-// import HDWalletProvider from 'truffle-hdwallet-provider';
-// import Web3 from 'web3';
-// import config from './config.js';
-// import compiledFactory from './build/Whitelist.json' assert {type: 'json'};
-
-const web3 = require('web3');
-const config = require('./config.js');
-const HDWalletProvider = require('truffle-hdwallet-provider');
+const web3 = require('./web3.js');
 const compiledFactory = require('./build/Whitelist.json');
 
-const provider = new HDWalletProvider(
-    config.mnemonic,
-    config.link
-);
 
-// const web3 = new Web3(provider);
 const deploy = async () => {
     const accounts = await web3.eth.getAccounts();
     console.log(accounts);
     console.log('Attemping to deploy to accounts ', accounts[0]);
 
-    const result = await new web3.eth.Contract(JSON.parse(compiledFactory.interface))
-        .deploy({ data: '0x' + compiledFactory.bytecode })
-        .send({ from: accounts[0] });
+    const result = await new web3.eth.Contract(compiledFactory.abi)
+        .deploy({ data: '0x' + compiledFactory.evm.bytecode.object })
+        .send({ from: accounts[0]
+        // gas: 1000000,
+        // gasPrice: web3.utils.toWei("40",'gwei')
+    });
 
     console.log('Contract deploy to ', result.options.address);
 };
