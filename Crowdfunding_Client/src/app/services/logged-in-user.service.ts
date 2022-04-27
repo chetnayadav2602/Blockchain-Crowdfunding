@@ -10,7 +10,6 @@ export class LoggedInUserService {
   public isLoggedIn: boolean=false;
 
   public login() {
-    
     this.isLoggedIn=true;
   }
 

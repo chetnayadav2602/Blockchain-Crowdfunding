@@ -15,9 +15,32 @@ export class ViewContractsComponent implements OnInit {
   constructor(private http: HttpClient/*,private httpParams : HttpParams*/) { }
   public campaignDet : CampaignSummary[] = [];
   public campaignAdd : CampaignAddress[] = [];
-  //data2;
+  
   ngOnInit(): void {
     this.getContracts();
+
+    setTimeout(() => { 
+
+      //@ts-ignore
+      const eth = ethereum;
+
+      if (eth.isConnected() == true && eth.selectedAddress != null) {
+
+          const account = eth.selectedAddress;
+          const showAccount = document.querySelector('.showAccount');
+          showAccount!.innerHTML = "Account: " + account
+
+
+          } else {
+
+          window.location.replace("./");
+
+          }
+  
+      }, 500);
+
+
+  
   }
 
   
@@ -30,44 +53,45 @@ export class ViewContractsComponent implements OnInit {
   //title = 'my-crowdfunding';
 
   public getContracts(){
-    this.http.get("http://localhost:5000/getCampaings").subscribe(model => this.temp = model);
+    this.http.get("http://localhost:5000/getDeployedCampaignsDetails").subscribe(model => {
+      this.temp=model;
+      console.log("Helloooo");
+      console.log(this.temp[0].min_contribution);
+    })
+   
+    
   }
   
-  //public getContracts(){
-
-    
-    // this.http.get("http://localhost:5000/getCampaings").subscribe((response:any) => {
-    //   this.temp=(response)
-    //   console.log ("hello"+this.temp);
-    //   for (let element of this.temp) {
-        
-    //     const baseURL = 'http://localhost:5000/getCampaignSummary'
-    //     const headers = {'content-type':'application/json'};
-    //     const params = new HttpParams().set('campaingId',element)
-    //     console.log(params);
-    //     this.http.post(baseURL, body,{'headers':headers, 'params': params}).subscribe(data => {
-    //       this.data2 = data;
-    //       alert('Campaign Posted!!')
-    //   })
-    //       // console.log(element);
-    //       // this.http.get("http://localhost:5000/getCampaignSummary",element).subscribe((response:any) => {this.temp2=(response)});
-    //       // console.log("after");
-        
-    //}
-    
-    
-  //   });
-  //   console.log("end of function");
-    
-  // }
-
-  //public permModel : any;
-  //title = 'my-crowdfunding';
   temp1 : any;
   public getPendingApprovals(){
-    //this.http.get("http://localhost:5000/getCampaings").subscribe(permModel => this.temp1 = permModel);
-    this.temp1=['PERM1','PERM2'];
+    this.http.get("http://localhost:5000/fetchKYCRequests").subscribe(permModel => {this.temp1 = permModel});
+  }
+  data1;
+  public approveRequest(address:any,role_requested: any){
+    /*const baseURL = 'http://localhost:5000/approveKYCRequest';
+    const headers = {'content-type':'application/json'};
+    const body=JSON.stringify({ reqAdd: address, reqRole: role_requested});
+    const params = new HttpParams().set('reqAdd', address).set('reqRole',role_requested);
+    console.log(address);
+    console.log(role_requested);
+    this.http.post(baseURL, body,{'headers':headers, 'params': params}).subscribe(data => {
+      this.data1 = data;
+    alert('Reuest sent for approval!!')
+  })*/
     
+  }
+  data2;
+  public rejectRequest(address:any,role_requested: any){
+    /*const baseURL = 'http://localhost:5000/rejectKYCRequest';
+    const headers = {'content-type':'application/json'};
+    const body=JSON.stringify({ reqAdd: address, reqRole: role_requested});
+    const params = new HttpParams().set('reqAdd', address).set('reqRole',role_requested);
+    console.log(address);
+    console.log(role_requested);
+    this.http.post(baseURL, body,{'headers':headers, 'params': params}).subscribe(data => {
+      this.data2 = data;
+    alert('Reuest sent for approval!!')
+  })*/
   }
 
   

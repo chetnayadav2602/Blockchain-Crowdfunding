@@ -1,406 +1,450 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-// @dev As this is purely a test to deploy a smart contract to my private network, I'm using code directly from the Open Zeppelin,
-// open-source project. This is community vetted code that is publicly available for reuse. 
 
 library Roles {
-  struct Role {
-    mapping (address => bool) bearer;
-  }
+    struct Role {
+        mapping(address => bool) bearer;
+    }
 
-  /**
-   * @dev give an address access to this role
-   */
-  function add(Role storage role, address addr)
-    internal
-  {
-    role.bearer[addr] = true;
-  }
+    /**
+     * @dev give an address access to this role
+     */
+    function add(Role storage role, address addr) internal {
+        role.bearer[addr] = true;
+    }
 
-  /**
-   * @dev remove an address' access to this role
-   */
-  function remove(Role storage role, address addr)
-    internal
-  {
-    role.bearer[addr] = false;
-  }
+    /**
+     * @dev remove an address' access to this role
+     */
+    function remove(Role storage role, address addr) internal {
+        role.bearer[addr] = false;
+    }
 
-  /*
-   * @dev check if an address has this role
-   * // reverts
-   */
-  function check(Role storage role, address addr)
-    view
-    internal
-  {
-    require(has(role, addr));
-  }
+    /*
+     * @dev check if an address has this role
+     * // reverts
+     */
+    function check(Role storage role, address addr) internal view {
+        require(has(role, addr));
+    }
 
-  /*
-   * @dev check if an address has this role
-   * @return bool
-   */
-  function has(Role storage role, address addr)
-    view
-    internal
-    returns (bool)
-  {
-    return role.bearer[addr];
-  }
+    /*
+     * @dev check if an address has this role
+     * @return bool
+     */
+    function has(Role storage role, address addr) internal view returns (bool) {
+        return role.bearer[addr];
+    }
 }
 
 contract RBAC {
-  using Roles for Roles.Role;
+    using Roles for Roles.Role;
 
-  mapping (string => Roles.Role) private roles;
+    mapping(string => Roles.Role) private roles;
 
-  event RoleAdded(address addr, string roleName);
-  event RoleRemoved(address addr, string roleName);
+    event RoleAdded(address addr, string roleName);
+    event RoleRemoved(address addr, string roleName);
 
-  /*
-   * @dev reverts if addr does not have role
-   * @param addr address
-   * @param roleName the name of the role
-   * // reverts
-   */
-  function checkRole(address addr, string memory roleName)
-    view
-    public
-  {
-    roles[roleName].check(addr);
-  }
+    function checkRole(address addr, string memory roleName) public view {
+        roles[roleName].check(addr);
+    }
 
-  /*
-   * @dev determine if addr has role
-   * @param addr address
-   * @param roleName the name of the role
-   * @return bool
-   */
-  function hasRole(address addr, string memory roleName)
-    view
-    public
-    returns (bool)
-  {
-    return roles[roleName].has(addr);
-  }
-  
-  /**
-   * @dev add a role to an address
-   * @param addr address
-   * @param roleName the name of the role
-   */
-  function addRole(address addr, string memory roleName)
-    public
-  {
-    roles[roleName].add(addr);
-    emit RoleAdded(addr, roleName);
-  }
+    function hasRole(address addr, string memory roleName)
+        public
+        view
+        returns (bool)
+    {
+        return roles[roleName].has(addr);
+    }
 
-  /**
-   * @dev remove a role from an address
-   * @param addr address
-   * @param roleName the name of the role
-   */
-  function removeRole(address addr, string memory roleName)
-    internal
-  {
-    roles[roleName].remove(addr);
-    emit RoleRemoved(addr, roleName);
-  }
+    function addRole(address addr, string memory roleName) public {
+        roles[roleName].add(addr);
+        emit RoleAdded(addr, roleName);
+    }
 
-  /**
-   * @dev modifier to scope access to a single role (uses msg.sender as addr)
-   * @param roleName the name of the role
-   * // reverts
-   */
-  modifier onlyRole(string memory roleName)
-  {
-    checkRole(msg.sender, roleName);
-    _;
-  }
-
-  /**
-   * @dev modifier to scope access to a set of roles (uses msg.sender as addr)
-   * @param roleNames the names of the roles to scope access to
-   * // reverts
-   *
-   * @TODO - when solidity supports dynamic arrays as arguments to modifiers, provide this
-   *  see: https://github.com/ethereum/solidity/issues/2467
-   */
-  // modifier onlyRoles(string[] roleNames) {
-  //     bool hasAnyRole = false;
-  //     for (uint8 i = 0; i < roleNames.length; i++) {
-  //         if (hasRole(msg.sender, roleNames[i])) {
-  //             hasAnyRole = true;
-  //             break;
-  //         }
-  //     }
-
-  //     require(hasAnyRole);
-
-  //     _;
-  // }
-}
-
-contract Ownable {
-  address public owner;
+    function removeRole(address addr, string memory roleName) internal {
+        roles[roleName].remove(addr);
+        emit RoleRemoved(addr, roleName);
+    }
 
 
-  event OwnershipRenounced(address indexed previousOwner);
-  event OwnershipTransferred(
-    address indexed previousOwner,
-    address indexed newOwner
-  );
-
-
-  /**
-   * @dev The Ownable constructor sets the original `owner` of the contract to the sender
-   * account.
-   */
-  constructor() {
-    owner = msg.sender;
-  }
-
-  /**
-   * @dev Throws if called by any account other than the owner.
-   */
-  modifier onlyOwner() {
-    require(msg.sender == owner);
-    _;
-  }
-
-  /**
-   * @dev Allows the current owner to relinquish control of the contract.
-   * @notice Renouncing to ownership will leave the contract without an owner.
-   * It will not be possible to call the functions with the `onlyOwner`
-   * modifier anymore.
-   */
-  function renounceOwnership() public onlyOwner {
-    emit OwnershipRenounced(owner);
-    owner = address(0);
-  }
-
-  /*
-   * @dev Allows the current owner to transfer control of the contract to a newOwner.
-   * @param _newOwner The address to transfer ownership to.
-   */
-  function transferOwnership(address _newOwner) public onlyOwner {
-    _transferOwnership(_newOwner);
-  }
-
-  /*
-   * @dev Transfers control of the contract to a newOwner.
-   * @param _newOwner The address to transfer ownership to.
-   */
-  function _transferOwnership(address _newOwner) internal {
-    require(_newOwner != address(0));
-    emit OwnershipTransferred(owner, _newOwner);
-    owner = _newOwner;
-  }
-}
-
-contract Whitelist is Ownable, RBAC {
-  event WhitelistedAddressAdded(address addr, string roleName);
-  event WhitelistedAddressRemoved(address addr, string roleName);
-
-  string public constant FUND_RAISER = "fund_raiser";
-  string public constant FUND_CONTRIBUTOR = "fund_contributor";
-
-  /**
-   * @dev Throws if called by any account that's not whitelisted.
-   */
-  modifier onlyFundRaiser() {
-    checkRole(msg.sender, FUND_RAISER);
-    _;
-  }
-
-  modifier onlyFundContributor() {
-    checkRole(msg.sender, FUND_CONTRIBUTOR);
-    _;
-  }
-
-  /*
-   * @dev add an address to the whitelist
-   * @param addr address
-   * @return true if the address was added to the whitelist, false if the address was already in the whitelist
-   */
-  function addAddressToFundRaiser(address addr)
-    onlyOwner
-    public
-  {
-    addRole(addr, FUND_RAISER);
-    emit WhitelistedAddressAdded(addr, FUND_RAISER);
-  }
-
-  function addAddressToFundContributor(address addr)
-    onlyOwner
-    public
-  {
-    addRole(addr, FUND_CONTRIBUTOR);
-    emit WhitelistedAddressAdded(addr, FUND_CONTRIBUTOR);
-  }
-
-//   /**
-//    * @dev getter to determine if address is in whitelist
-//    */
-  function isFundRaiser(address addr)
-    public
-    view
-    returns (bool)
-  {
-    return hasRole(addr, FUND_RAISER);
-  }
-
-//    /**
-//    * @dev getter to determine if address is in whitelist
-//    */
-  function isFundContributor(address addr)
-    public
-    view
-    returns (bool)
-  {
-    return hasRole(addr, FUND_CONTRIBUTOR);
-  }
-
-  /*
-   * @dev remove an address from the whitelist
-   * @param addr address
-   * @return true if the address was removed from the whitelist,
-   * false if the address wasn't in the whitelist in the first place
-   */
-  function removeAddressFromFundRaiser(address addr)
-    onlyOwner
-    public
-  {
-    removeRole(addr, FUND_RAISER);
-    emit WhitelistedAddressRemoved(addr, FUND_RAISER);
-  }
-
-   /*
-   * @dev remove an address from the whitelist
-   * @param addr address
-   * @return true if the address was removed from the whitelist,
-   * false if the address wasn't in the whitelist in the first place
-   */
-  function removeAddressFromFundContributor(address addr)
-    onlyOwner
-    public
-  {
-    removeRole(addr, FUND_CONTRIBUTOR);
-    emit WhitelistedAddressRemoved(addr, FUND_CONTRIBUTOR);
-  }
-}
-
-contract CampaignFactory {
-    Whitelist whitelist = Whitelist(0xE9a599ab37eB09cC29100C0d049Bc3cD08126Ddc);
-
-    address[] public deployedCampaigns;
-
-    modifier onlyFundRaiser() {
-        require(whitelist.hasRole(msg.sender,"fund_raiser"));
+    modifier onlyRole(string memory roleName) {
+        checkRole(msg.sender, roleName);
         _;
     }
 
-    function createCampaign(uint minimum,string memory name,string memory description,string memory image,uint target) public onlyFundRaiser {
-        address newCampaign = address(new Campaign(minimum, msg.sender,name,description,image,target));
+}
+
+contract Ownable {
+    address public owner;
+
+    event OwnershipRenounced(address indexed previousOwner);
+    event OwnershipTransferred(
+        address indexed previousOwner,
+        address indexed newOwner
+    );
+
+    /**
+     * @dev The Ownable constructor sets the original `owner` of the contract to the sender
+     * account.
+     */
+    constructor() {
+        owner = msg.sender;
+    }
+
+    /**
+     * @dev Throws if called by any account other than the owner.
+     */
+    modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
+    }
+
+    /**
+     * @dev Allows the current owner to relinquish control of the contract.
+     * @notice Renouncing to ownership will leave the contract without an owner.
+     * It will not be possible to call the functions with the `onlyOwner`
+     * modifier anymore.
+     */
+    function renounceOwnership() public onlyOwner {
+        emit OwnershipRenounced(owner);
+        owner = address(0);
+    }
+
+    /*
+     * @dev Allows the current owner to transfer control of the contract to a newOwner.
+     * @param _newOwner The address to transfer ownership to.
+     */
+    function transferOwnership(address _newOwner) public onlyOwner {
+        _transferOwnership(_newOwner);
+    }
+
+    /*
+     * @dev Transfers control of the contract to a newOwner.
+     * @param _newOwner The address to transfer ownership to.
+     */
+    function _transferOwnership(address _newOwner) internal {
+        require(_newOwner != address(0));
+        emit OwnershipTransferred(owner, _newOwner);
+        owner = _newOwner;
+    }
+}
+
+contract Whitelist is Ownable, RBAC {
+    event WhitelistedAddressAdded(address addr, string roleName);
+    event WhitelistedAddressRemoved(address addr, string roleName);
+
+    string public constant FUND_RAISER = "fund_raiser";
+    string public constant FUND_CONTRIBUTOR = "fund_contributor";
+    string public constant FUND_APPROVER = "fund_approver";
+
+    modifier onlyFundApprover() {
+        checkRole(msg.sender, FUND_APPROVER);
+        _;
+    }
+
+    modifier onlyFundRaiser() {
+        checkRole(msg.sender, FUND_RAISER);
+        _;
+    }
+
+    modifier onlyFundContributor() {
+        checkRole(msg.sender, FUND_CONTRIBUTOR);
+        _;
+    }
+
+    struct KYCRequest {
+        string first_Name;
+        string last_Name;
+        string email;
+        string phone;
+        address user_address;
+        string docType;
+        string role_applied_for;
+        string status;
+    }
+
+    KYCRequest[] public kycRequests;
+
+    // create KYC requests
+    function createKYCRequest(
+        string memory _first_name,
+        string memory _last_name,
+        string memory _email,
+        string memory _phone,
+        string memory _doctype,
+        string memory _role_applied_for
+    ) public {
+        KYCRequest memory newRequest = KYCRequest(
+            _first_name,
+            _last_name,
+            _email,
+            _phone,
+            msg.sender,
+            _doctype,
+            _role_applied_for,
+            "Pending"
+        );
+        kycRequests.push(newRequest);
+    }
+
+    // fetch KYC requests
+    function fetchKYCRequests() public view returns (KYCRequest[] memory) {
+        return (kycRequests);
+    }
+
+    // approving the requests
+    function approveKYCRequest(address addr, string memory role_applied)
+        public onlyFundApprover
+    {
+        if (
+            keccak256(abi.encodePacked((role_applied))) ==
+            keccak256(abi.encodePacked((FUND_RAISER)))
+        ) {
+            addRole(addr, FUND_RAISER);
+            emit WhitelistedAddressAdded(addr, FUND_RAISER);
+        }
+        if (
+            keccak256(abi.encodePacked((role_applied))) ==
+            keccak256(abi.encodePacked((FUND_CONTRIBUTOR)))
+        ) {
+            addRole(addr, FUND_CONTRIBUTOR);
+            emit WhitelistedAddressAdded(addr, FUND_CONTRIBUTOR);
+        }
+        updateStatusOfRequest(addr, role_applied, "Approved");
+    }
+
+    // reject KYC request
+    function rejectKYCRequest(address addr, string memory role_applied) public onlyFundApprover {
+        updateStatusOfRequest(addr, role_applied, "Rejected");
+    }
+
+    // update status of the KYC requests
+    function updateStatusOfRequest(
+        address addr,
+        string memory role_applied,
+        string memory status
+    ) internal {
+        uint256 len = kycRequests.length;
+        for (uint256 i = 0; i < len; i++) {
+            if (
+                kycRequests[i].user_address == addr &&
+                keccak256(
+                    abi.encodePacked((kycRequests[i].role_applied_for))
+                ) ==
+                keccak256(abi.encodePacked((role_applied)))
+            ) {
+                kycRequests[i].status = status;
+            }
+        }
+    }
+
+
+    function addAddressToFundRaiser(address addr) public onlyOwner {
+        addRole(addr, FUND_RAISER);
+        emit WhitelistedAddressAdded(addr, FUND_RAISER);
+    }
+
+    function addAddressToFundApprover(address addr) public onlyOwner {
+        addRole(addr, FUND_APPROVER);
+        emit WhitelistedAddressAdded(addr, FUND_APPROVER);
+    }
+
+    function addAddressToFundContributor(address addr) public onlyOwner {
+        addRole(addr, FUND_CONTRIBUTOR);
+        emit WhitelistedAddressAdded(addr, FUND_CONTRIBUTOR);
+    }
+
+    function isFundApprover(address addr) public view returns (bool) {
+        return hasRole(addr, FUND_APPROVER);
+    }
+
+    function isFundRaiser(address addr) public view returns (bool) {
+        return hasRole(addr, FUND_RAISER);
+    }
+
+    function isFundContributor(address addr) public view returns (bool) {
+        return hasRole(addr, FUND_CONTRIBUTOR);
+    }
+
+    function removeAddressFromFundApprover(address addr) public onlyOwner {
+        removeRole(addr, FUND_APPROVER);
+        emit WhitelistedAddressRemoved(addr, FUND_APPROVER);
+    }
+
+    function removeAddressFromFundRaiser(address addr) public onlyOwner {
+        removeRole(addr, FUND_RAISER);
+        emit WhitelistedAddressRemoved(addr, FUND_RAISER);
+    }
+
+    function removeAddressFromFundContributor(address addr) public onlyOwner {
+        removeRole(addr, FUND_CONTRIBUTOR);
+        emit WhitelistedAddressRemoved(addr, FUND_CONTRIBUTOR);
+    }
+
+    string[] user_roles;
+    function getRolesOfUser(address addr) public returns(string[] memory) {
+        user_roles = new string[](0);
+        if(hasRole(addr, FUND_CONTRIBUTOR)){
+          user_roles.push(FUND_CONTRIBUTOR);
+        }
+        if(hasRole(addr, FUND_RAISER)){
+          user_roles.push(FUND_RAISER);
+        }
+        if(hasRole(addr, FUND_APPROVER)){
+          user_roles.push(FUND_APPROVER);
+        }
+        return user_roles;
+    }
+}
+
+contract CampaignFactory {
+
+      struct CampaignSummary {
+        uint256 minimunContribution;
+        uint256 balance;
+        address manager;
+        string CampaignName;
+        string  CampaignDescription;
+        string imageUrl;
+        uint256 targetToAchieve;
+    }
+
+    Whitelist whitelist = Whitelist(0xb8FeD7AD2bfCE5e906E1e2299d348639Ac377044);
+    address[] public deployedCampaigns;
+
+    modifier onlyFundRaiser() {
+        require(whitelist.hasRole(msg.sender, "fund_raiser"));
+        _;
+    }
+
+    function createCampaign(
+        uint256 minimum,
+        string memory name,
+        string memory description,
+        string memory image,
+        uint256 target
+    ) public onlyFundRaiser {
+        address newCampaign = address(
+            new Campaign(minimum, msg.sender, name, description, image, target)
+        );
         deployedCampaigns.push(newCampaign);
     }
 
     function getDeployedCampaigns() public view returns (address[] memory) {
         return deployedCampaigns;
     }
+
+    // function getDeployedCampaignsDetails() public view returns (string[] memory campaignList){
+    //    for(uint i =0;i<deployedCampaigns.length;i++){
+         
+    //      campaignList[i] = [Strings.toString(Campaign(deployedCampaigns[i]).minimunContribution()),
+    //     Strings.toString(Campaign(deployedCampaigns[i]).balance()),
+    //     Campaign(deployedCampaigns[i]).CampaignName(),
+    //     Campaign(deployedCampaigns[i]).CampaignDescription(),
+    //     Campaign(deployedCampaigns[i]).imageUrl(),
+    //     Strings.toString(Campaign(deployedCampaigns[i]).targetToAchieve())];
+    //    }
+    //    return campaignList;
+    // }
+
 }
 
 contract Campaign {
-  struct Request {
-      string description;
-      uint value;
-      address recipient;
-      bool complete;
-      uint approvalCount;
-      mapping(address => bool) approvals;
-  }
+    Whitelist whitelist = Whitelist(0xb8FeD7AD2bfCE5e906E1e2299d348639Ac377044);
+    modifier onlyFundContributor() {
+        require(whitelist.hasRole(msg.sender, "fund_contributor"));
+        _;
+    }
 
-  Request[] public requests;
-  address public manager;
-  uint public minimunContribution;
-  string public CampaignName;
-  string public CampaignDescription;
-  string public imageUrl;
-  uint public targetToAchieve;
-  address[] public contributers;
-  mapping(address => bool) public approvers;
-  uint public approversCount;
-  uint numRequests;
-  mapping (uint => Request) requestsMapping;
+    address public manager;
+    uint256 public minimunContribution;
+    enum Campaign_Status {
+        Active,
+        Closed
+    }
+
+    Campaign_Status public status;
+    string public CampaignName;
+    string public CampaignDescription;
+    string public imageUrl;
+    uint256 public balance;
+    uint256 public targetToAchieve;
+    address[] public contributers;
 
 
-  modifier restricted() {
-      require(msg.sender == manager);
-      _;
-  }
+    event CreatorPaid(address);
 
-  constructor (uint minimun, address creator,string memory name,string memory description,string memory image,uint target) {
-      manager = creator;
-      minimunContribution = minimun;
-      CampaignName=name;
-      CampaignDescription=description;
-      imageUrl=image;
-      targetToAchieve=target;
-  }
+    modifier restricted() {
+        require(msg.sender == manager);
+        _;
+    }
 
-  function contribute() public payable {
-      require(msg.value > minimunContribution );
+    constructor(
+        uint256 minimun,
+        address creator,
+        string memory name,
+        string memory description,
+        string memory image,
+        uint256 target
+    ) {
+        manager = creator;
+        minimunContribution = minimun;
+        CampaignName = name;
+        CampaignDescription = description;
+        imageUrl = image;
+        targetToAchieve = target;
+        balance = 0;
+        status = Campaign_Status.Active;
+    }
 
-      contributers.push(msg.sender);
-      approvers[msg.sender] = true;
-      approversCount++;
-  }
+    function contribute() public payable onlyFundContributor {
+        require(msg.value > minimunContribution);
+        require((address(this).balance + msg.value) <= targetToAchieve);
+        payOut(address(this).balance, manager);
+    }
 
-  function createRequest (string memory description, uint value,
-        address recipient) public{
-            Request storage r = requestsMapping[numRequests++];
-            r.description = description;
-            r.value = value;
-            r.recipient = recipient;
-            r.complete = false;
-            r.approvalCount = 0;
-  }
+    // payout if the ballance is reached to target balance
+    function payOut(uint256 bal, address addr) internal {
+        if (bal == targetToAchieve) {
+            payable(addr).transfer(targetToAchieve);
+            emit CreatorPaid(addr);
+            status = Campaign_Status.Closed;
+        }
+    }
 
-  function approveRequest(uint index) public {
-      require(approvers[msg.sender]);
-      require(!requests[index].approvals[msg.sender]);
+      struct Summary {
+        uint256 minimunContribution;
+        uint256 balance;
+        address manager;
+        string CampaignName;
+        string  CampaignDescription;
+        string imageUrl;
+        uint256 targetToAchieve;
+    }
 
-      requests[index].approvals[msg.sender] = true;
-      requests[index].approvalCount++;
-  }
-
-//   function finalizeRequest(uint index) public restricted{
-//       require(requests[index].approvalCount > (approversCount / 2));
-//       require(!requests[index].complete);
-
-//       requests[index].recipient.transfer(requests[index].value);
-//       requests[index].complete = true;
-
-//   }
-
-    function getSummary() public view returns (uint,uint,uint,uint,address,string memory ,string memory,string memory,uint) {
-        return(
+    function getSummary()
+        public
+        view
+        returns ( uint256,
+        uint256,
+        address,
+        string memory,
+        string memory,
+        string memory,
+        uint256 
+        )
+    {
+        return (
             minimunContribution,
             address(this).balance,
-            requests.length,
-            approversCount,
             manager,
             CampaignName,
             CampaignDescription,
             imageUrl,
             targetToAchieve
-          );
+        );
     }
 
-    function getRequestsCount() public view returns (uint){
-        return requests.length;
-    }
 }

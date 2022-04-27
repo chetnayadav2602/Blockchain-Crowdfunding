@@ -1,7 +1,3 @@
-// import HDWalletProvider from "truffle-hdwallet-provider";
-// import Web3 from "web3";
-// import config from './config.js';
-
 const HDWalletProvider = require('truffle-hdwallet-provider');
 const Web3 = require('web3');
 const config = require('./config.js');

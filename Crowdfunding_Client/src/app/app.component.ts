@@ -22,19 +22,14 @@ export class AppComponent {
  
   constructor(private http: HttpClient, private logInService: LoggedInUserService, private router: Router ) {} 
 
-  public isUserLoggedIn : boolean =false;
-  
-  public login(){
-    console.log("Login start",this.isUserLoggedIn);
-    this.logInService.login();
-    this.isUserLoggedIn = this.logInService.isLoggedIn;
-    console.log(this.isUserLoggedIn);
-    console.log("Login successful");
-    if(this.isUserLoggedIn){
-      this.router.navigate(['/app-view-contracts']);
-    }
-      
-      
+  public async login(){
+
+    //@ts-ignore
+    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+    const account = accounts[0];
+    console.log(account);
+    window.location.replace("/app-view-contracts");
+    
   }
 
 }
