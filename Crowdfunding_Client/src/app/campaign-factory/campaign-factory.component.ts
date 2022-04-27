@@ -26,7 +26,7 @@ export class CampaignFactoryComponent implements OnInit {
   
   public postContracts(postCampForm: any){
     
-    const baseURL = 'http://localhost:5000/postCampaings'
+    const baseURL = 'http://localhost:5000/postCampaigns'
     const headers = {'content-type':'application/json'};
     const body=JSON.stringify({ cname: postCampForm.cname, cdesc: postCampForm.cdesc, cimage : postCampForm.cimage });
     const params = new HttpParams().set('cname', postCampForm.cname).set('cdesc',postCampForm.cdesc).set('cimage', postCampForm.cimage);

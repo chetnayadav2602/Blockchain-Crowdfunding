@@ -31,8 +31,8 @@ router.get('/hello',function(req,res) {
 
 router.post('/getRolesOfUser',function(req,res) {
   console.log("Called getRolesOfUser");
-  console.log(req.body);
-  getRolesOfUser(req.body.user_address).then((value) => {
+  console.log(req.query);
+  getRolesOfUser(req.query.user_address).then((value) => {
     console.log(value);
     res.send(value);
     console.log("Got api response : getRolesOfUser");
@@ -41,7 +41,8 @@ router.post('/getRolesOfUser',function(req,res) {
 
 router.post('/createKYCRequest',function(req,res) {
   console.log("Called Create createKYCRequest");
-  createKYCRequest(req.body.first_Name,req.body.last_Name,req.body.email,req.body.phone,req.body.doc_type,req.body.role_applied_for).then((value) => {
+  console.log(req.query)
+  createKYCRequest(req.query.fname,req.query.lname,req.query.email,req.query.phone,req.query.doc_type,req.query.role_applied_for).then((value) => {
     console.log(value);
     res.send({'message':'KYC Request created successfully'});
     console.log("Got api response : createKYCRequest");
@@ -51,7 +52,8 @@ router.post('/createKYCRequest',function(req,res) {
 
 router.post('/approveKYCRequest',function(req,res) {
   console.log("Called Create approveKYCRequest");
-  approveKYCRequest(req.body.user_address,req.body.role_applied_for).then((value) => {
+  console.lof(req.query);
+  approveKYCRequest(req.query.user_address,req.query.role_applied_for).then((value) => {
     console.log(value);
     res.send({'message':'KYC Request Approved.'});
     console.log("Got api response : approveKYCRequest");
@@ -60,7 +62,8 @@ router.post('/approveKYCRequest',function(req,res) {
 
 router.post('/rejectKYCRequest',function(req,res) {
   console.log("Called Create rejectKYCRequest");
-  rejectKYCRequest(req.body.user_address,req.body.role_applied_for).then((value) => {
+  console.lof(req.query);
+  rejectKYCRequest(req.query.user_address,req.query.role_applied_for).then((value) => {
     console.log(value);
     res.send({'message':'KYC Request Rejected.'});
     console.log("Got api response : rejectKYCRequest");
@@ -79,7 +82,7 @@ router.get('/fetchKYCRequests',function(req,res) {
 
 router.post('/addAddressToFundRaiser',function(req,res) {
   console.log("Called addAddressToFundRaiser");
-  addAddressToFundRaiser(req.body.user_address).then((value) => {
+  addAddressToFundRaiser(req.query.user_address).then((value) => {
     res.send({'message':'Address added successfully'});
     console.log("Got api response : addAddressToFundRaiser");
   });
@@ -87,7 +90,7 @@ router.post('/addAddressToFundRaiser',function(req,res) {
 
 router.post('/addAddressToFundApprover',function(req,res) {
   console.log("Called addAddressToFundApprover");
-  addAddressToFundApprover(req.body.user_address).then((value) => {
+  addAddressToFundApprover(req.query.user_address).then((value) => {
     res.send({'message':'Address added successfully'});
     console.log("Got api response : addAddressToFundApprover");
   });
@@ -97,7 +100,7 @@ router.post('/addAddressToFundApprover',function(req,res) {
 
 router.post('/postCampaigns',function(req,res) {
   console.log("Called Create Campaign");
-  createCampaign(req.body.cname,req.body.cdesc,req.body.cimage).then((value) => {
+  createCampaign(req.query.cname,req.query.cdesc,req.query.cimage).then((value) => {
     console.log(value);
     res.send({'message':'Campaign created successfully'});
     console.log("Got api response : postCampaigns");
@@ -113,7 +116,7 @@ router.get('/getCampaigns',function(req,res) {
 });
 
 router.get('/getCampaignSummary',function(req,res) {
-  getSummary(req.body.caddr).then((value) => {
+  getSummary(req.query.caddr).then((value) => {
     console.log(value);
     res.send(value);
     console.log("Got api response");
@@ -122,7 +125,7 @@ router.get('/getCampaignSummary',function(req,res) {
 
 router.post('/contribute',function(req,res) {
   console.log("Calling contribute api");
-  contribute(req.body.caddr,req.body.amount).then((value) => {
+  contribute(req.query.caddr,req.query.amount).then((value) => {
     console.log(value);
     res.send({'message':'Contribution to campaign done successfully'});
     console.log("Got api response Contribute");

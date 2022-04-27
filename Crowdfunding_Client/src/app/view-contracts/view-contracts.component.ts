@@ -68,7 +68,7 @@ export class ViewContractsComponent implements OnInit {
   }
   data1;
   public approveRequest(address:any,role_requested: any){
-    /*const baseURL = 'http://localhost:5000/approveKYCRequest';
+    const baseURL = 'http://localhost:5000/approveKYCRequest';
     const headers = {'content-type':'application/json'};
     const body=JSON.stringify({ reqAdd: address, reqRole: role_requested});
     const params = new HttpParams().set('reqAdd', address).set('reqRole',role_requested);
@@ -77,12 +77,12 @@ export class ViewContractsComponent implements OnInit {
     this.http.post(baseURL, body,{'headers':headers, 'params': params}).subscribe(data => {
       this.data1 = data;
     alert('Reuest sent for approval!!')
-  })*/
+  })
     
   }
   data2;
   public rejectRequest(address:any,role_requested: any){
-    /*const baseURL = 'http://localhost:5000/rejectKYCRequest';
+    const baseURL = 'http://localhost:5000/rejectKYCRequest';
     const headers = {'content-type':'application/json'};
     const body=JSON.stringify({ reqAdd: address, reqRole: role_requested});
     const params = new HttpParams().set('reqAdd', address).set('reqRole',role_requested);
@@ -91,7 +91,7 @@ export class ViewContractsComponent implements OnInit {
     this.http.post(baseURL, body,{'headers':headers, 'params': params}).subscribe(data => {
       this.data2 = data;
     alert('Reuest sent for approval!!')
-  })*/
+  })
   }
 
   

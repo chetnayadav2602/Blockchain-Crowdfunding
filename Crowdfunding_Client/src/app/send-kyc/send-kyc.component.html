@@ -1,1 +1,52 @@
-<p>send-kyc works!</p>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+<div class="container">
+
+    <h1>Send KYC Request</h1>
+
+    <form #sendKYCForm = "ngForm" (ngSubmit)="SubmitDetails(sendKYCForm.value)">
+        
+        {{ sendKYCForm.value | json }}
+
+        <div class="form-group">
+            
+            <label class="form-label" for="fname">First Name</label><br>
+            <input type="text" name="fname" class = "form-control" ngModel>
+            
+        </div>
+        <pre></pre>
+        <div class="form-group">
+            
+            <label class="form-label" for="lname">Last Name</label><br>
+            <input type="text" name="lname" class = "form-control" ngModel>
+        
+    </div>
+    <pre></pre>
+    <div class="form-group">
+        <label for="role_applied_for">Request   Role</label>
+        <select id="role_applied_for" name="role_applied_for" ngModel class="form-control">
+          <option value="FUND_RAISER">FUND_RAISER</option>
+          <option value="FUND_CONTRIBUTOR">FUND_CONTRIBUTOR</option>
+        </select>
+      </div>
+
+        <pre></pre>
+
+        <div class="form-group">
+            <label class="form-label" for="phone">Phone</label><br>
+            <input type="text" name="phone" class = "form-control" ngModel>
+        </div>
+
+        <pre></pre>
+
+        <div class="form-group">
+            <label class="form-label" for="email">Email</label><br>
+            <input type="text" name="email" class = "form-control" ngModel>
+        </div>
+
+        <pre></pre>
+        <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+</div>
+
