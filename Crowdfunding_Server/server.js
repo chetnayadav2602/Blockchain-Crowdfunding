@@ -41,12 +41,22 @@ router.get('/getRolesOfUser',function(req,res) {
 
 router.post('/createKYCRequest',function(req,res) {
   console.log("Called Create createKYCRequest");
-  console.log(req.query)
-  createKYCRequest(req.query.fname,req.query.lname,req.query.email,req.query.phone,req.query.doc_type,req.query.role_applied_for,req.query.user_address).then((value) => {
-    console.log(value);
-    res.send({'message':'KYC Request created successfully'});
-    console.log("Got api response : createKYCRequest");
-  });
+  console.log(req.query);
+  try{
+   createKYCRequest(req.query.fname,req.query.lname,req.query.email,req.query.phone,req.query.doc_type,req.query.role_applied_for,req.query.user_address).then((value) => {
+      console.log(value);
+      if(value == "Success"){
+        res.send({'message':'KYC Request created successfully'});
+      }else{
+        res.send({'message':'Transaction did not go through. Either you do not have access or network is congested.'});
+      }
+      
+      console.log("Got api response : createKYCRequest");
+    });
+  }catch{
+    res.send({'message':'Transaction did not go through. Either you do not have access or network is congested.'});
+  }
+
 
 });
 
@@ -90,7 +100,7 @@ router.post('/addAddressToFundRaiser',function(req,res) {
 
 router.post('/addAddressToFundApprover',function(req,res) {
   console.log("Called addAddressToFundApprover");
-  addAddressToFundApprover(req.query.user_address).then((value) => {
+  addAddressToFundApprover(req.body.user_address).then((value) => {
     res.send({'message':'Address added successfully'});
     console.log("Got api response : addAddressToFundApprover");
   });

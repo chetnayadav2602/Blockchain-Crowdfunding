@@ -20,9 +20,9 @@ async function addAddressToFundRaiser(user_address) {
 async function addAddressToFundApprover(user_address) {
   const accounts = await web3.eth.getAccounts();
   console.log(accounts);
-  console.log("Adding Address to fund raiser");
+  console.log("Adding Address to fund Approver");
   await whitelist.methods.addAddressToFundApprover(user_address).send({
-    from: accounts[0],
+    from: accounts[0]
   });
 
   console.log("Adding Address to fund raiser : Sucessful");
@@ -99,7 +99,7 @@ async function approveKYCRequest(requested_address, role_applied_for,user_addres
   const val = await whitelist.methods
     .approveKYCRequest(requested_address, role_applied_for)
     .send({
-      from: user_address,
+      from: user_address
     });
   console.log(val);
   console.log("Got response from contract approveKYCRequest : Successful");
@@ -112,7 +112,7 @@ async function rejectKYCRequest(requested_address, role_applied_for,user_address
   const val = await whitelist.methods
     .rejectKYCRequest(requested_address, role_applied_for)
     .send({
-      from: user_address,
+      from: user_address
     });
   console.log(val);
   console.log("Got response from contract rejectKYCRequest : Successful");
@@ -122,9 +122,8 @@ async function rejectKYCRequest(requested_address, role_applied_for,user_address
 // Create Campaign Methods
 async function createCampaign(cname, cdesc, cimage,goal,min_contribution,user_address) {
   console.log("Creating campaign");
-  const accounts = await web3.eth.getAccounts();
-  console.log(accounts);
-  await factory.methods
+  try{
+    await factory.methods
     .createCampaign(
       web3.utils.toWei(min_contribution, "ether"),
       cname, 
@@ -136,6 +135,11 @@ async function createCampaign(cname, cdesc, cimage,goal,min_contribution,user_ad
       from: user_address,
     });
   console.log("Creating camaign: Successful");
+  return "Success";
+  }catch{
+    return "Fail";
+  }
+
 }
 
 async function fetchDeployedCampaigns() {
