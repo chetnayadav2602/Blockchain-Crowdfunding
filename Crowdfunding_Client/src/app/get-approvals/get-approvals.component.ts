@@ -30,8 +30,9 @@ data1;
 public approveRequest(address:any,role_requested: any){
   const baseURL = 'http://localhost:5000/approveKYCRequest';
   const headers = {'content-type':'application/json'};
+  const user_address = localStorage.getItem('user_address') || "";
   const body=JSON.stringify({ user_address : address, role_applied_for : role_requested});
-  const params = new HttpParams().set('user_address', address).set('role_applied_for',role_requested);
+  const params = new HttpParams().set('requested_address', address).set('role_applied_for',role_requested).set('user_address', user_address);
   console.log(address);
   console.log(role_requested);
   this.http.post(baseURL, body,{'headers':headers, 'params': params}).subscribe(data => {
@@ -46,8 +47,9 @@ data2;
 public rejectRequest(address:any,role_requested: any){
   const baseURL = 'http://localhost:5000/rejectKYCRequest';
   const headers = {'content-type':'application/json'};
+  const user_address = localStorage.getItem('user_address') || "";
   const body=JSON.stringify({ user_address: address, role_applied_for: role_requested});
-  const params = new HttpParams().set('user_address', address).set('role_applied_for',role_requested);
+  const params = new HttpParams().set('requested_address', address).set('role_applied_for',role_requested).set('user_address', user_address);
   console.log(address);
   console.log(role_requested);
   this.http.post(baseURL, body,{'headers':headers, 'params': params}).subscribe(data => {

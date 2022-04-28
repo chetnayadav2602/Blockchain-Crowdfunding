@@ -31,18 +31,20 @@ export class AppComponent {
     const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
     const account = accounts[0];
     console.log(account);
+    localStorage.setItem('user_address', accounts[0]);
     
     const headers = {'content-type':'application/json'};
    
     //const params = new HttpParams().set('user_address', '0x9783e40Da023d622d15a4E840b6f679f92390e17');
-    const params = new HttpParams().set('user_address', account);
-    this.http.get("http://localhost:5000/getRolesOfUser",{'params': params}).subscribe(permModel => {
+    // const params = new HttpParams().set('user_address', account);
+    console.log("Calling login");
+    this.http.get("http://localhost:5000/getRolesOfUser?user_address="+account).subscribe(permModel => {
         for(const i in permModel){
           console.log(permModel[i]);
           this.roles.push(permModel[i]);
         }
-        console.log(this.roles);
         localStorage.setItem('roles', JSON.stringify(this.roles));
+        window.location.replace("/app-view-contracts");
       });
         
     
@@ -51,7 +53,7 @@ export class AppComponent {
 
   
     
-    window.location.replace("/app-view-contracts");
+   
     
   }
 

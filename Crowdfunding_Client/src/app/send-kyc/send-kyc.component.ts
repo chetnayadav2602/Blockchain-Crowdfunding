@@ -27,8 +27,9 @@ export class SendKYCComponent implements OnInit {
 
     const baseURL = 'http://localhost:5000/createKYCRequest'
     const headers = {'content-type':'application/json'};
-    const body=JSON.stringify({ fname: sendKYCForm.fname, lname: sendKYCForm.lname, role_applied_for : sendKYCForm.role_applied_for, phone: sendKYCForm.phone, email: sendKYCForm.email});
-    const params = new HttpParams().set('fname', sendKYCForm.fname).set('lname',sendKYCForm.lname).set('role_applied_for', sendKYCForm.role_applied_for).set('phone', sendKYCForm.phone).set('email', sendKYCForm.email).set('email', sendKYCForm.email).set('doc_type', 'SSN');
+    const user_address = localStorage.getItem('user_address') || "";
+    const body=JSON.stringify({ fname: sendKYCForm.fname, lname: sendKYCForm.lname, role_applied_for : sendKYCForm.role_applied_for, phone: sendKYCForm.phone, email: sendKYCForm.email, user_address: user_address});
+    const params = new HttpParams().set('fname', sendKYCForm.fname).set('lname',sendKYCForm.lname).set('role_applied_for', sendKYCForm.role_applied_for).set('phone', sendKYCForm.phone).set('email', sendKYCForm.email).set('email', sendKYCForm.email).set('doc_type', 'SSN').set('user_address', user_address);
     console.log(params);
 
     this.http.post(baseURL, body,{'headers': headers, 'params': params}).subscribe(data => {

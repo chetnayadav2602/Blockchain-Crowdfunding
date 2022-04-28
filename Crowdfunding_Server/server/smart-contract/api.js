@@ -45,10 +45,12 @@ async function createKYCRequest(
   email,
   phone,
   doc_type,
-  role_applied_for
+  role_applied_for,
+  user_address
 ) {
-  const accounts = await web3.eth.getAccounts();
-  console.log(accounts);
+  // const accounts = await web3.eth.getAccounts();
+  // console.log(accounts);
+  console.log(user_address);
   const val = await whitelist.methods
     .createKYCRequest(
       first_Name,
@@ -59,7 +61,7 @@ async function createKYCRequest(
       role_applied_for
     )
     .send({
-      from: accounts[0],
+      from: user_address,
     });
   console.log(val);
   console.log("Got response from contract createKYCRequest : Successful");
@@ -90,27 +92,27 @@ async function fetchKYCRequests() {
   return results;
 }
 
-async function approveKYCRequest(user_address, role_applied_for) {
-  const accounts = await web3.eth.getAccounts();
-  console.log(accounts);
+async function approveKYCRequest(requested_address, role_applied_for,user_address) {
+  // const accounts = await web3.eth.getAccounts();
+  // console.log(accounts);
   console.log("calling approveKYCRequest api");
   const val = await whitelist.methods
-    .approveKYCRequest(user_address, role_applied_for)
+    .approveKYCRequest(requested_address, role_applied_for)
     .send({
-      from: accounts[0],
+      from: user_address,
     });
   console.log(val);
   console.log("Got response from contract approveKYCRequest : Successful");
   return val;
 }
 
-async function rejectKYCRequest(user_address, role_applied_for) {
-  const accounts = await web3.eth.getAccounts();
-  console.log(accounts);
+async function rejectKYCRequest(requested_address, role_applied_for,user_address) {
+  // const accounts = await web3.eth.getAccounts();
+  // console.log(accounts);
   const val = await whitelist.methods
-    .rejectKYCRequest(user_address, role_applied_for)
+    .rejectKYCRequest(requested_address, role_applied_for)
     .send({
-      from: accounts[0],
+      from: user_address,
     });
   console.log(val);
   console.log("Got response from contract rejectKYCRequest : Successful");
@@ -118,21 +120,20 @@ async function rejectKYCRequest(user_address, role_applied_for) {
 }
 
 // Create Campaign Methods
-async function createCampaign(cname, cdesc, cimage) {
+async function createCampaign(cname, cdesc, cimage,goal,min_contribution,user_address) {
   console.log("Creating campaign");
   const accounts = await web3.eth.getAccounts();
   console.log(accounts);
   await factory.methods
     .createCampaign(
-      web3.utils.toWei("0.001", "ether"),
-      cname, //"data.campaignName",
-      cdesc, //data.description",
+      web3.utils.toWei(min_contribution, "ether"),
+      cname, 
+      cdesc, 
       cimage,
-      // "https://www.google.com/imgres?cimage=https%3A%2F%2Fmedia.istockphoto.com%2Fphotos%2Fbaked-chicken-wings-with-sesame-seeds-and-sweet-chili-sauce-on-white-picture-id835903320%3Fk%3D20%26m%3D835903320%26s%3D612x612%26w%3D0%26h%3DWp2m7pcihAU4g7RcVW4Pabex1skrouzJwvWCR1-cGUs%3D&imgrefurl=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Fchicken-wing&tbnid=_4J1dGmTbTWPUM&vet=12ahUKEwi75OT93Zn3AhUBomoFHZFoCQgQMygBegUIARCvAg..i&docid=iJN_zY001bWu3M&w=612&h=490&q=chicken%20wings%20image&ved=2ahUKEwi75OT93Zn3AhUBomoFHZFoCQgQMygBegUIARCvAg",//imageUrl,
-      web3.utils.toWei("1", "ether")
+      web3.utils.toWei(goal, "ether")
     )
     .send({
-      from: accounts[0],
+      from: user_address,
     });
   console.log("Creating camaign: Successful");
 }
@@ -153,13 +154,11 @@ async function getSummary(contract_address) {
   return val;
 }
 
-async function contribute(contract_address, amount) {
+async function contribute(contract_address, amount, user_address) {
   console.log("Contribute to campaign called");
-  const accounts = await web3.eth.getAccounts();
-  console.log(accounts);
   const campaign = new web3.eth.Contract(Campaign.abi, contract_address);
   const val = await campaign.methods.contribute().send({
-    from: accounts[0],
+    from: user_address,
     value: web3.utils.toWei(amount, "ether"),
   });
   console.log(val);

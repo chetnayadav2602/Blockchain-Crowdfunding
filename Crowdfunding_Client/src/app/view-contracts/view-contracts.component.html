@@ -35,6 +35,7 @@
       class="list-group-item list-group-item-action"
       style="font-family: Lato"
     >
+    <form #contributeForm = "ngForm" (ngSubmit)="contribute(contributeForm.value)">
       <p><b>Minimum Contribution: </b> {{ user.min_contribution }}</p>
       <p>
         <b>User Balance: </b>{{ user.balance }}, <b>User Manager: </b
@@ -49,7 +50,21 @@
         {{ user.campaign_address }}
       </p>
 
-      <button class="btn btn-dark" style="float: right">Contribute</button>
+
+      <pre></pre>
+      <div  class="form-group">
+        <input type="text" name="campaign_address" class ="form-control" [(ngModel)]="user.campaign_address" hidden>
+      </div>
+      <div *ngIf=hasRole_fundContributor>
+        <div  class="form-group">
+          <label class="form-label" for="amount">Enter Amount</label><br>
+          <input type="text" name="amount" class = "form-control" ngModel>
+        </div>
+        <pre></pre>
+        <button class="btn btn-dark" style="float: left;" type="submit">Contribute</button>
+      </div>
+        </form>
+        <pre></pre>
     </li>
   </ul>
   <!-- <span>{{ temp }} app is running!</span> -->

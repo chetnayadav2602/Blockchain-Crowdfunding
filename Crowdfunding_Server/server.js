@@ -31,7 +31,7 @@ router.get('/hello',function(req,res) {
 
 router.get('/getRolesOfUser',function(req,res) {
   console.log("Called getRolesOfUser");
-  console.log(req.query);
+  console.log(req.query.user_address);
   getRolesOfUser(req.query.user_address).then((value) => {
     console.log(value);
     res.send(value);
@@ -42,7 +42,7 @@ router.get('/getRolesOfUser',function(req,res) {
 router.post('/createKYCRequest',function(req,res) {
   console.log("Called Create createKYCRequest");
   console.log(req.query)
-  createKYCRequest(req.query.fname,req.query.lname,req.query.email,req.query.phone,req.query.doc_type,req.query.role_applied_for).then((value) => {
+  createKYCRequest(req.query.fname,req.query.lname,req.query.email,req.query.phone,req.query.doc_type,req.query.role_applied_for,req.query.user_address).then((value) => {
     console.log(value);
     res.send({'message':'KYC Request created successfully'});
     console.log("Got api response : createKYCRequest");
@@ -53,7 +53,7 @@ router.post('/createKYCRequest',function(req,res) {
 router.post('/approveKYCRequest',function(req,res) {
   console.log("Called Create approveKYCRequest");
   console.log(req.query);
-  approveKYCRequest(req.query.user_address,req.query.role_applied_for).then((value) => {
+  approveKYCRequest(req.query.requested_address,req.query.role_applied_for,req.query.user_address).then((value) => {
     console.log(value);
     res.send({'message':'KYC Request Approved.'});
     console.log("Got api response : approveKYCRequest");
@@ -63,7 +63,7 @@ router.post('/approveKYCRequest',function(req,res) {
 router.post('/rejectKYCRequest',function(req,res) {
   console.log("Called Create rejectKYCRequest");
   console.log(req.query);
-  rejectKYCRequest(req.query.user_address,req.query.role_applied_for).then((value) => {
+  rejectKYCRequest(req.query.requested_address,req.query.role_applied_for,req.query.user_address).then((value) => {
     console.log(value);
     res.send({'message':'KYC Request Rejected.'});
     console.log("Got api response : rejectKYCRequest");
@@ -100,7 +100,7 @@ router.post('/addAddressToFundApprover',function(req,res) {
 
 router.post('/postCampaigns',function(req,res) {
   console.log("Called Create Campaign");
-  createCampaign(req.query.cname,req.query.cdesc,req.query.cimage).then((value) => {
+  createCampaign(req.query.cname,req.query.cdesc,req.query.cimage,req.query.goal,req.query.min_contribution,req.query.user_address).then((value) => {
     console.log(value);
     res.send({'message':'Campaign created successfully'});
     console.log("Got api response : postCampaigns");
@@ -125,7 +125,7 @@ router.get('/getCampaignSummary',function(req,res) {
 
 router.post('/contribute',function(req,res) {
   console.log("Calling contribute api");
-  contribute(req.query.caddr,req.query.amount).then((value) => {
+  contribute(req.query.caddr,req.query.amount,req.query.user_address).then((value) => {
     console.log(value);
     res.send({'message':'Contribution to campaign done successfully'});
     console.log("Got api response Contribute");

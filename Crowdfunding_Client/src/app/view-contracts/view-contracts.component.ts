@@ -18,6 +18,7 @@ export class ViewContractsComponent implements OnInit {
   roles:any;
   hasRole_fundApprover: boolean = false;
   hasRole_fundRaiser: boolean = false;
+  hasRole_fundContributor: boolean = false;
 
   ngOnInit(): void {
     this.getContracts();
@@ -27,6 +28,7 @@ export class ViewContractsComponent implements OnInit {
 
     this.hasRole_fundApprover = this.roles.includes('fund_approver');
     this.hasRole_fundRaiser = this.roles.includes('fund_raiser');
+    this.hasRole_fundContributor = this.roles.includes('fund_contributor');
     //console.log(this.hasRole);
     setTimeout(() => { 
 
@@ -66,46 +68,27 @@ export class ViewContractsComponent implements OnInit {
       this.temp=model;
       console.log("Helloooo");
       console.log(this.temp[0].min_contribution);
-    })
+    });
    
     
   }
-  
-  // temp1 : any;
-  // public getPendingApprovals(){
-  //   this.http.get("http://localhost:5000/fetchKYCRequests").subscribe(permModel => {this.temp1 = permModel});
-  // }
-  // data1;
-  // public approveRequest(address:any,role_requested: any){
-  //   const baseURL = 'http://localhost:5000/approveKYCRequest';
-  //   const headers = {'content-type':'application/json'};
-  //   const body=JSON.stringify({ user_address : address, role_applied_for : role_requested});
-  //   const params = new HttpParams().set('user_address', address).set('role_applied_for',role_requested);
-  //   console.log(address);
-  //   console.log(role_requested);
-  //   this.http.post(baseURL, body,{'headers':headers, 'params': params}).subscribe(data => {
-  //     this.data1 = data;
-  //   alert('Reuest sent for approval!!')
-  // })
+
+  temp3: any;
+  public contribute(contributeForm: any){
+    console.log('Sending Contribution!!');
     
-  // }
-  // data2;
-  // public rejectRequest(address:any,role_requested: any){
-  //   const baseURL = 'http://localhost:5000/rejectKYCRequest';
-  //   const headers = {'content-type':'application/json'};
-  //   const body=JSON.stringify({ user_address: address, role_applied_for: role_requested});
-  //   const params = new HttpParams().set('user_address', address).set('role_applied_for',role_requested);
-  //   console.log(address);
-  //   console.log(role_requested);
-  //   this.http.post(baseURL, body,{'headers':headers, 'params': params}).subscribe(data => {
-  //     this.data2 = data;
-  //   alert('Reuest sent for approval!!')
-  // })
-  // }
+    const baseURL = 'http://localhost:5000/contribute'
+    const headers = {'content-type':'application/json'};
+    const user_address = localStorage.getItem('user_address') || "";
+    const body=JSON.stringify({ caddr: this.temp3, amount: contributeForm.amount});
+    const params = new HttpParams().set('caddr', contributeForm.campaign_address).set('amount',contributeForm.amount).set('user_address', user_address);
+    console.log(params);
 
-  
-
-
+    this.http.post(baseURL, body,{'headers': headers, 'params': params}).subscribe(data => {
+      this.temp3 = data,
+        (      error: any) => console.log('Sorry!! ', error)
+    })
+  }
   
 
 }

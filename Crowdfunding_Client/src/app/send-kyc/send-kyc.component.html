@@ -9,7 +9,6 @@
   <h1>Send KYC Request</h1>
 
   <form #sendKYCForm="ngForm" (ngSubmit)="SubmitDetails(sendKYCForm.value)">
-    {{ sendKYCForm.value | json }}
 
     <div class="form-group">
       <label class="form-label" for="fname">First Name</label><br />
@@ -19,6 +18,7 @@
         class="form-control"
         ngModel
         placeholder="First Name"
+        required
       />
     </div>
     <pre></pre>
@@ -30,21 +30,22 @@
         class="form-control"
         ngModel
         placeholder="Last Name"
+        required
       />
     </div>
     <pre></pre>
     <div class="form-group">
-      <label for="role_applied_for">Request Role</label>
       <select
         id="role_applied_for"
         name="role_applied_for"
         ngModel
         class="form-control form-select"
+        required
       >
-        <!-- <option value="" disabled="disabled">Request Role</option> -->
+      <option value="" disabled selected hidden>Choose a role</option>
         <option value="FUND_RAISER">FUND_RAISER</option>
         <option value="FUND_CONTRIBUTOR">FUND_CONTRIBUTOR</option>
-        <!-- <option value="FUND_APPROVER">FUND_APPROVER</option> -->
+        <option value="FUND_APPROVER">FUND_APPROVER</option>
       </select>
     </div>
 
@@ -58,6 +59,7 @@
         class="form-control"
         ngModel
         placeholder="Phone"
+        required
       />
     </div>
 
@@ -71,10 +73,11 @@
         class="form-control"
         ngModel
         placeholder="Email"
+        required
       />
     </div>
 
     <pre></pre>
-    <button class="btn btn-primary" type="submit">Submit</button>
+    <button class="btn btn-primary" type="submit" [disabled]="sendKYCForm.invalid">Submit</button>
   </form>
 </div>

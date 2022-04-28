@@ -28,8 +28,9 @@ export class CampaignFactoryComponent implements OnInit {
     
     const baseURL = 'http://localhost:5000/postCampaigns'
     const headers = {'content-type':'application/json'};
+    const user_address = localStorage.getItem('user_address') || "";
     const body=JSON.stringify({ cname: postCampForm.cname, cdesc: postCampForm.cdesc, cimage : postCampForm.cimage });
-    const params = new HttpParams().set('cname', postCampForm.cname).set('cdesc',postCampForm.cdesc).set('cimage', postCampForm.cimage);
+    const params = new HttpParams().set('cname', postCampForm.cname).set('cdesc',postCampForm.cdesc).set('cimage', postCampForm.cimage).set('goal', postCampForm.goal).set('min_contribution', postCampForm.min_contribution).set('user_address', user_address);
     console.log(params);
     this.http.post(baseURL, body,{'headers':headers, 'params': params}).subscribe(data => {
       this.data2 = data;
