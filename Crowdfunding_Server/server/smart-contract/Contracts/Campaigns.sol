@@ -76,68 +76,24 @@ contract RBAC {
 
 }
 
-contract Ownable {
+
+contract Whitelist is RBAC {
+    event WhitelistedAddressAdded(address addr, string roleName);
+    event WhitelistedAddressRemoved(address addr, string roleName);
+
     address public owner;
+    string public constant FUND_RAISER = "fund_raiser";
+    string public constant FUND_CONTRIBUTOR = "fund_contributor";
+    string public constant FUND_APPROVER = "fund_approver";
 
-    event OwnershipRenounced(address indexed previousOwner);
-    event OwnershipTransferred(
-        address indexed previousOwner,
-        address indexed newOwner
-    );
-
-    /**
-     * @dev The Ownable constructor sets the original `owner` of the contract to the sender
-     * account.
-     */
     constructor() {
         owner = msg.sender;
     }
 
-    /**
-     * @dev Throws if called by any account other than the owner.
-     */
     modifier onlyOwner() {
         require(msg.sender == owner);
         _;
     }
-
-    /**
-     * @dev Allows the current owner to relinquish control of the contract.
-     * @notice Renouncing to ownership will leave the contract without an owner.
-     * It will not be possible to call the functions with the `onlyOwner`
-     * modifier anymore.
-     */
-    function renounceOwnership() public onlyOwner {
-        emit OwnershipRenounced(owner);
-        owner = address(0);
-    }
-
-    /*
-     * @dev Allows the current owner to transfer control of the contract to a newOwner.
-     * @param _newOwner The address to transfer ownership to.
-     */
-    function transferOwnership(address _newOwner) public onlyOwner {
-        _transferOwnership(_newOwner);
-    }
-
-    /*
-     * @dev Transfers control of the contract to a newOwner.
-     * @param _newOwner The address to transfer ownership to.
-     */
-    function _transferOwnership(address _newOwner) internal {
-        require(_newOwner != address(0));
-        emit OwnershipTransferred(owner, _newOwner);
-        owner = _newOwner;
-    }
-}
-
-contract Whitelist is Ownable, RBAC {
-    event WhitelistedAddressAdded(address addr, string roleName);
-    event WhitelistedAddressRemoved(address addr, string roleName);
-
-    string public constant FUND_RAISER = "fund_raiser";
-    string public constant FUND_CONTRIBUTOR = "fund_contributor";
-    string public constant FUND_APPROVER = "fund_approver";
 
     modifier onlyFundApprover() {
         checkRole(msg.sender, FUND_APPROVER);
@@ -311,7 +267,7 @@ contract CampaignFactory {
         uint256 targetToAchieve;
     }
 
-    Whitelist whitelist = Whitelist(0xb8FeD7AD2bfCE5e906E1e2299d348639Ac377044);
+    Whitelist whitelist = Whitelist(0x5B5bd06a1fd504651E34D86100774B7627bd4413);
     address[] public deployedCampaigns;
 
     modifier onlyFundRaiser() {
@@ -336,23 +292,10 @@ contract CampaignFactory {
         return deployedCampaigns;
     }
 
-    // function getDeployedCampaignsDetails() public view returns (string[] memory campaignList){
-    //    for(uint i =0;i<deployedCampaigns.length;i++){
-         
-    //      campaignList[i] = [Strings.toString(Campaign(deployedCampaigns[i]).minimunContribution()),
-    //     Strings.toString(Campaign(deployedCampaigns[i]).balance()),
-    //     Campaign(deployedCampaigns[i]).CampaignName(),
-    //     Campaign(deployedCampaigns[i]).CampaignDescription(),
-    //     Campaign(deployedCampaigns[i]).imageUrl(),
-    //     Strings.toString(Campaign(deployedCampaigns[i]).targetToAchieve())];
-    //    }
-    //    return campaignList;
-    // }
-
 }
 
 contract Campaign {
-    Whitelist whitelist = Whitelist(0xb8FeD7AD2bfCE5e906E1e2299d348639Ac377044);
+    Whitelist whitelist = Whitelist(0x5B5bd06a1fd504651E34D86100774B7627bd4413);
     modifier onlyFundContributor() {
         require(whitelist.hasRole(msg.sender, "fund_contributor"));
         _;
