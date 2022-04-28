@@ -22,7 +22,7 @@ export class ViewContractsComponent implements OnInit {
   ngOnInit(): void {
     this.getContracts();
     
-    this.roles =  JSON.parse(localStorage.getItem("roles") || "");
+    this.roles =  JSON.parse((localStorage.getItem("roles")) || "");
     console.log(this.roles);
 
     this.hasRole_fundApprover = this.roles.includes('fund_approver');

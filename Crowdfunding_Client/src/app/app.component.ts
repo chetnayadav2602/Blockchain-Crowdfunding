@@ -34,8 +34,8 @@ export class AppComponent {
     
     const headers = {'content-type':'application/json'};
    
-    //const params = new HttpParams().set('user_address', '0x9783e40Da023d622d15a4E840b6f679f92390e17');
-    const params = new HttpParams().set('user_address', account);
+    const params = new HttpParams().set('user_address', '0x9783e40Da023d622d15a4E840b6f679f92390e17');
+    // const params = new HttpParams().set('user_address', account);
     this.http.get("http://localhost:5000/getRolesOfUser",{'params': params}).subscribe(permModel => {
         for(const i in permModel){
           console.log(permModel[i]);
@@ -43,15 +43,11 @@ export class AppComponent {
         }
         console.log(this.roles);
         localStorage.setItem('roles', JSON.stringify(this.roles));
+        window.location.replace("/app-view-contracts");
+
       });
+
         
-    
-
-
-
-  
-    
-    window.location.replace("/app-view-contracts");
     
   }
 

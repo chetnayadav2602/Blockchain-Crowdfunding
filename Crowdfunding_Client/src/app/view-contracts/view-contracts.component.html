@@ -1,4 +1,4 @@
-<div>
+<div class="container">
   <h2 class="showAccount" style="width: 100%; text-align: center"></h2>
   <div style="width: fit-content; margin: auto">
     <input
@@ -35,14 +35,15 @@
       class="list-group-item list-group-item-action"
       style="font-family: Lato"
     >
-      <p><b>Minimum Contribution: </b> {{ user.min_contribution }}</p>
+      <p><b>Minimum Contribution: </b> {{ user.min_contribution }} ETH</p>
       <p>
-        <b>User Balance: </b>{{ user.balance }}, <b>User Manager: </b
+        <b>Funds Raised: </b>{{ user.balance }} ETH <b>Campaign Manager: </b
         >{{ user.manager }}
       </p>
       <p>
-        <b>Campaign Name: </b> {{ user.campaign_name }}, <b>Image URL: </b>
-        {{ user.image_url }}
+        <b>Campaign Name: </b> {{ user.campaign_name }} <b>Image URL: </b>
+        <!-- <img src="{{ user.image_url }}" alt="Campaign Image."> -->
+        <img src="https://res.cloudinary.com/teepublic/image/private/s--EbgwtqvM--/t_Resized%20Artwork/c_fit,g_north_west,h_1054,w_1054/co_ffffff,e_outline:53/co_ffffff,e_outline:inner_fill:53/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1615991410/production/designs/20309216_0.jpg" alt="Campaign Image." width="50px">
       </p>
       <p>
         <b>Goal: </b> {{ user.target_to_acheive }}, <b>Campaign Address: </b>
