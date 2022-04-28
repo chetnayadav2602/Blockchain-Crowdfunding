@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-send-kyc',
@@ -9,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class SendKYCComponent implements OnInit {
   data2: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -33,7 +34,9 @@ export class SendKYCComponent implements OnInit {
     this.http.post(baseURL, body,{'headers': headers, 'params': params}).subscribe(data => {
       this.data2 = data,
         (      error: any) => console.log('Sorry!! ', error)
+        
     })
+    this.router.navigate(['/app-view-contracts']);
   }
 
 }

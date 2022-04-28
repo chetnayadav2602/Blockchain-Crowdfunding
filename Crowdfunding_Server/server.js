@@ -29,7 +29,7 @@ router.get('/hello',function(req,res) {
     res.send({'name':'Crowdfunding Project Landing!!'});
 });
 
-router.post('/getRolesOfUser',function(req,res) {
+router.get('/getRolesOfUser',function(req,res) {
   console.log("Called getRolesOfUser");
   console.log(req.query);
   getRolesOfUser(req.query.user_address).then((value) => {
@@ -52,7 +52,7 @@ router.post('/createKYCRequest',function(req,res) {
 
 router.post('/approveKYCRequest',function(req,res) {
   console.log("Called Create approveKYCRequest");
-  console.lof(req.query);
+  console.log(req.query);
   approveKYCRequest(req.query.user_address,req.query.role_applied_for).then((value) => {
     console.log(value);
     res.send({'message':'KYC Request Approved.'});
@@ -62,7 +62,7 @@ router.post('/approveKYCRequest',function(req,res) {
 
 router.post('/rejectKYCRequest',function(req,res) {
   console.log("Called Create rejectKYCRequest");
-  console.lof(req.query);
+  console.log(req.query);
   rejectKYCRequest(req.query.user_address,req.query.role_applied_for).then((value) => {
     console.log(value);
     res.send({'message':'KYC Request Rejected.'});

@@ -15,10 +15,19 @@ export class ViewContractsComponent implements OnInit {
   constructor(private http: HttpClient/*,private httpParams : HttpParams*/) { }
   public campaignDet : CampaignSummary[] = [];
   public campaignAdd : CampaignAddress[] = [];
-  
+  roles:any;
+  hasRole_fundApprover: boolean = false;
+  hasRole_fundRaiser: boolean = false;
+
   ngOnInit(): void {
     this.getContracts();
+    
+    this.roles =  JSON.parse(localStorage.getItem("roles") || "");
+    console.log(this.roles);
 
+    this.hasRole_fundApprover = this.roles.includes('fund_approver');
+    this.hasRole_fundRaiser = this.roles.includes('fund_raiser');
+    //console.log(this.hasRole);
     setTimeout(() => { 
 
       //@ts-ignore

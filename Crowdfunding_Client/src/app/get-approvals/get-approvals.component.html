@@ -6,7 +6,8 @@
 />
 <link rel="stylesheet" href="get-approvals.component.css" />
 <h1>Approve Requests</h1>
-
+<br>
+<h3 *ngIf = displayMsg>No Pending Requests</h3>
 <ul class="list-group">
   <li
     *ngFor="let request of temp1; let i = index"

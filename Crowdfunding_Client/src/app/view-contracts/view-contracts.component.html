@@ -15,6 +15,7 @@
       class="btn btn-dark"
       style="font-family: Lato"
       style="margin: 30px"
+      *ngIf = hasRole_fundRaiser 
     />
     <input
       type="button"
@@ -23,6 +24,7 @@
       class="btn btn-dark"
       style="font-family: Lato"
       style="margin: 30px"
+      *ngIf = hasRole_fundApprover
     />
     <!--input type="button" value="Approvals Pending" (click)="getPendingApprovals()" class="btn btn-dark" style="font-family: Lato;" -->
   </div>

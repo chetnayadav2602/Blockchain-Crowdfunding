@@ -9,16 +9,23 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 export class GetApprovalsComponent implements OnInit {
 
   constructor(private http: HttpClient/*,private httpParams : HttpParams*/) { }
-
+  displayMsg: boolean = false;
   ngOnInit(): void {
     this.getPendingApprovals();
+  
+    
 }
 
 temp1 : any;
 public getPendingApprovals(){
-  this.http.get("http://localhost:5000/fetchKYCRequests").subscribe(permModel => {this.temp1 = permModel});
+  this.http.get("http://localhost:5000/fetchKYCRequests").subscribe(permModel => {this.temp1 = permModel;
+  if(typeof this.temp1 == 'undefined' || this.temp1.length == 0){
+    this.displayMsg = true;
+}});
   
 }
+
+
 data1;
 public approveRequest(address:any,role_requested: any){
   const baseURL = 'http://localhost:5000/approveKYCRequest';
@@ -29,8 +36,10 @@ public approveRequest(address:any,role_requested: any){
   console.log(role_requested);
   this.http.post(baseURL, body,{'headers':headers, 'params': params}).subscribe(data => {
     this.data1 = data;
-  alert('Reuest sent for approval!!')
+  alert('Request approved!!');
+  this.ngOnInit();
 })
+
   
 }
 data2;
@@ -43,7 +52,8 @@ public rejectRequest(address:any,role_requested: any){
   console.log(role_requested);
   this.http.post(baseURL, body,{'headers':headers, 'params': params}).subscribe(data => {
     this.data2 = data;
-  alert('Reuest sent for approval!!')
+  alert('Request rejected!!');
+  this.ngOnInit();
 })
 }}
 
