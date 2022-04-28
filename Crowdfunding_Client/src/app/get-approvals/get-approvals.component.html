@@ -1,0 +1,43 @@
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+  crossorigin="anonymous"
+/>
+<link rel="stylesheet" href="get-approvals.component.css" />
+<h1>Approve Requests</h1>
+
+<ul class="list-group">
+  <li
+    *ngFor="let request of temp1; let i = index"
+    class="list-group-item list-group-item-action"
+    style="font-family: Lato"
+  >
+    <p>
+      <b>{{ i + 1 }}.Name: </b> {{ request.first_name }}
+      {{ request.last_name }}
+    </p>
+    <p><b>Email: </b>{{ request.email }} , <b>Phone: </b>{{ request.phone }}</p>
+    <p><b>Address: </b>{{ request.user_address }}</p>
+    <p>
+      <b> Role Requested: </b> {{ request.role_requested }} , <b>Status: </b>
+      {{ request.status }}
+    </p>
+
+    <input
+      type="button"
+      class="btn btn-success"
+      value="Approve"
+      style="float: right"
+      (click)="approveRequest(request.user_address, request.role_requested)"
+    />
+
+    <input
+      type="button"
+      class="btn btn-danger"
+      value="Reject"
+      style="float: right"
+      (click)="rejectRequest(request.user_address, request.role_requested)"
+    />
+  </li>
+</ul>

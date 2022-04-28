@@ -1,32 +1,73 @@
-
 <div>
-    <h2 class="showAccount" style="width: 100%; text-align: center;"></h2>
-    <div style="width: fit-content; margin: auto;">
-      <input type="button" value="Send KYC Request" routerLink="/app-send-kyc" class="btn btn-dark" style="font-family: Lato;">
-      <input type="button" value="Create Campaign" routerLink="/app-campaign-factory" class="btn btn-dark" style="font-family: Lato;" style="margin: 30px;">
-      <input type="button" value="Approvals Pending" (click)="getPendingApprovals()" class="btn btn-dark" style="font-family: Lato;">
-      
-    </div>
+  <h2 class="showAccount" style="width: 100%; text-align: center"></h2>
+  <div style="width: fit-content; margin: auto">
+    <input
+      type="button"
+      value="Send KYC Request"
+      routerLink="/app-send-kyc"
+      class="btn btn-dark"
+      style="font-family: Lato"
+    />
+    <input
+      type="button"
+      value="Create Campaign"
+      routerLink="/app-campaign-factory"
+      class="btn btn-dark"
+      style="font-family: Lato"
+      style="margin: 30px"
+    />
+    <input
+      type="button"
+      value="Approvals Pending"
+      routerLink="/app-get-approvals"
+      class="btn btn-dark"
+      style="font-family: Lato"
+      style="margin: 30px"
+    />
+    <!--input type="button" value="Approvals Pending" (click)="getPendingApprovals()" class="btn btn-dark" style="font-family: Lato;" -->
+  </div>
 
-    <ul class="list-group">
-        <li *ngFor="let user of temp; let i = index;" class="list-group-item list-group-item-action" style="font-family: Lato;">
-          {{i + 1}}. {{ user.min_contribution }},{{ user.balance }},{{ user.manager }},{{ user.campaign_name }},{{ user.image_url }},{{ user.target_to_acheive }}
-                    
-        </li>
-    </ul>
-    <!-- <span>{{ temp }} app is running!</span> -->
+  <ul class="list-group">
+    <li
+      *ngFor="let user of temp; let i = index"
+      class="list-group-item list-group-item-action"
+      style="font-family: Lato"
+    >
+      {{ i + 1 }}. {{ user.min_contribution }},{{ user.balance }},{{
+        user.manager
+      }},{{ user.campaign_name }},{{ user.image_url }},{{
+        user.target_to_acheive
+      }}
+    </li>
+  </ul>
+  <!-- <span>{{ temp }} app is running!</span> -->
 
-    <ul class="list-group">
-      <li *ngFor="let request of temp1; let i = index;" class="list-group-item list-group-item-action" style="font-family: Lato;" >
-        {{i + 1}}. <p>Name: {{ request.first_name }}  {{ request.last_name }} </p>
-                    <p> Details: {{ request.email }}  {{ request.phone }} {{ request.user_address }} {{ request.role_requested }} 
-                      {{ request.status }} </p>
-        <input type="button" class = "btn btn-success" value="Approve" (click) = "approveRequest(request.user_address,request.role_requested)">
-        
-        <input type="button" class = "btn btn-danger" value="Reject" (click) = "rejectRequest(request.user_address,request.role_requested)">
-      </li>
-    </ul>
+  <!-- <ul class="list-group">
+    <li
+      *ngFor="let request of temp1; let i = index"
+      class="list-group-item list-group-item-action"
+      style="font-family: Lato"
+    >
+      {{ i + 1 }}.
+      <p>Name: {{ request.first_name }} {{ request.last_name }}</p>
+      <p>
+        Details: {{ request.email }} {{ request.phone }}
+        {{ request.user_address }} {{ request.role_requested }}
+        {{ request.status }}
+      </p>
+      <input
+        type="button"
+        class="btn btn-success"
+        value="Approve"
+        (click)="approveRequest(request.user_address, request.role_requested)"
+      />
 
+      <input
+        type="button"
+        class="btn btn-danger"
+        value="Reject"
+        (click)="rejectRequest(request.user_address, request.role_requested)"
+      />
+    </li>
+  </ul> -->
 </div>
-
-
