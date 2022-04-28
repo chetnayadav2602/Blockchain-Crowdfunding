@@ -6,8 +6,8 @@
 />
 <link rel="stylesheet" href="get-approvals.component.css" />
 <h1>Approve Requests</h1>
-<br>
-<h3 *ngIf = displayMsg>No Pending Requests</h3>
+<br />
+<h3 *ngIf="displayMsg">No Pending Requests</h3>
 <ul class="list-group">
   <li
     *ngFor="let request of temp1; let i = index"
@@ -15,7 +15,7 @@
     style="font-family: Lato"
   >
     <p>
-      <b>{{ i + 1 }}.Name: </b> {{ request.first_name }}
+      <b>Name: </b> {{ request.first_name }}
       {{ request.last_name }}
     </p>
     <p><b>Email: </b>{{ request.email }} , <b>Phone: </b>{{ request.phone }}</p>
@@ -27,7 +27,7 @@
 
     <input
       type="button"
-      class="btn btn-success"
+      class="btn btn-success approve"
       value="Approve"
       style="float: right"
       (click)="approveRequest(request.user_address, request.role_requested)"

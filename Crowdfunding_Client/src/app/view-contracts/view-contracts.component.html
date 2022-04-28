@@ -7,7 +7,7 @@
       routerLink="/app-send-kyc"
       class="btn btn-dark"
       style="font-family: Lato"
-    />
+      style="margin: 30px"    />
     <input
       type="button"
       value="Create Campaign"
@@ -15,7 +15,7 @@
       class="btn btn-dark"
       style="font-family: Lato"
       style="margin: 30px"
-      *ngIf = hasRole_fundRaiser 
+      *ngIf = hasRole_fundRaiser
     />
     <input
       type="button"
@@ -35,11 +35,21 @@
       class="list-group-item list-group-item-action"
       style="font-family: Lato"
     >
-      {{ i + 1 }}. {{ user.min_contribution }},{{ user.balance }},{{
-        user.manager
-      }},{{ user.campaign_name }},{{ user.image_url }},{{
-        user.target_to_acheive
-      }}
+      <p><b>Minimum Contribution: </b> {{ user.min_contribution }}</p>
+      <p>
+        <b>User Balance: </b>{{ user.balance }}, <b>User Manager: </b
+        >{{ user.manager }}
+      </p>
+      <p>
+        <b>Campaign Name: </b> {{ user.campaign_name }}, <b>Image URL: </b>
+        {{ user.image_url }}
+      </p>
+      <p>
+        <b>Goal: </b> {{ user.target_to_acheive }}, <b>Campaign Address: </b>
+        {{ user.campaign_address }}
+      </p>
+
+      <button class="btn btn-dark" style="float: right">Contribute</button>
     </li>
   </ul>
   <!-- <span>{{ temp }} app is running!</span> -->
