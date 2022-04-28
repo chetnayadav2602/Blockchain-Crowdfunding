@@ -2,6 +2,14 @@
     margin-left: 20px;
 }
 
-h1 {
+h1, h2 {
     padding-top: 50px;
+    font-family: 'Staatliches';
   }
+
+.container {
+    margin: auto;
+    padding-right: 10%;
+    padding-left: 10%;
+
+} 

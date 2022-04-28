@@ -14,4 +14,8 @@ h1 {
     font-family: 'Lato';
 }
 
+label {
+    display: none;
+}
+
 

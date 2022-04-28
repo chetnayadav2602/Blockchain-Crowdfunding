@@ -46,15 +46,7 @@ export class AppComponent {
         localStorage.setItem('roles', JSON.stringify(this.roles));
         window.location.replace("/app-view-contracts");
       });
-        
-    
-
-
-
-  
-    
-   
-    
+         
   }
 
 
