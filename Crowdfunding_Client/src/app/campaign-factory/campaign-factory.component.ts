@@ -34,7 +34,7 @@ export class CampaignFactoryComponent implements OnInit {
     console.log(params);
     this.http.post(baseURL, body,{'headers':headers, 'params': params}).subscribe(data => {
       this.data2 = data;
-      alert('Campaign Posted!!')
+      alert(data['message']);
     })
   }
 

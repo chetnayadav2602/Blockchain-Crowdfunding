@@ -112,7 +112,11 @@ router.post('/postCampaigns',function(req,res) {
   console.log("Called Create Campaign");
   createCampaign(req.query.cname,req.query.cdesc,req.query.cimage,req.query.goal,req.query.min_contribution,req.query.user_address).then((value) => {
     console.log(value);
-    res.send({'message':'Campaign created successfully'});
+    if(value == "Success"){
+      res.send({'message':'KYC Request created successfully'});
+    }else{
+      res.send({'message':'Transaction did not go through. Either you do not have access or network is congested.'});
+    }
     console.log("Got api response : postCampaigns");
   });
 });
