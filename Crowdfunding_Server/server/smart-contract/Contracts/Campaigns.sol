@@ -267,7 +267,7 @@ contract CampaignFactory {
         uint256 targetToAchieve;
     }
 
-    Whitelist whitelist = Whitelist(0x5B5bd06a1fd504651E34D86100774B7627bd4413);
+    Whitelist whitelist = Whitelist(0xaE0B9cA451fdD8af4050a882923dDF933c659Bbb);
     address[] public deployedCampaigns;
 
     modifier onlyFundRaiser() {
@@ -295,7 +295,7 @@ contract CampaignFactory {
 }
 
 contract Campaign {
-    Whitelist whitelist = Whitelist(0x5B5bd06a1fd504651E34D86100774B7627bd4413);
+    Whitelist whitelist = Whitelist(0xaE0B9cA451fdD8af4050a882923dDF933c659Bbb);
     modifier onlyFundContributor() {
         require(whitelist.hasRole(msg.sender, "fund_contributor"));
         _;

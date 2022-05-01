@@ -28,6 +28,17 @@ async function addAddressToFundApprover(user_address) {
   console.log("Adding Address to fund raiser : Sucessful");
 }
 
+async function addAddressToFundContributor(user_address) {
+  const accounts = await web3.eth.getAccounts();
+  console.log(accounts);
+  console.log("Adding Address to fund Approver");
+  await whitelist.methods.addAddressToFundContributor(user_address).send({
+    from: accounts[0]
+  });
+
+  console.log("Adding Address to fund raiser : Sucessful");
+}
+
 async function getRolesOfUser(user_address) {
   const accounts = await web3.eth.getAccounts();
   console.log(accounts);
@@ -48,8 +59,8 @@ async function createKYCRequest(
   role_applied_for,
   user_address
 ) {
-  // const accounts = await web3.eth.getAccounts();
-  // console.log(accounts);
+  const accounts = await web3.eth.getAccounts();
+  console.log(accounts);
   console.log(user_address);
   const val = await whitelist.methods
     .createKYCRequest(
@@ -61,7 +72,7 @@ async function createKYCRequest(
       role_applied_for
     )
     .send({
-      from: user_address,
+      from: accounts[0],
     });
   console.log(val);
   console.log("Got response from contract createKYCRequest : Successful");
@@ -122,23 +133,36 @@ async function rejectKYCRequest(requested_address, role_applied_for,user_address
 // Create Campaign Methods
 async function createCampaign(cname, cdesc, cimage,goal,min_contribution,user_address) {
   console.log("Creating campaign");
-  try{
-    await factory.methods
-    .createCampaign(
-      web3.utils.toWei(min_contribution, "ether"),
-      cname, 
-      cdesc, 
-      cimage,
-      web3.utils.toWei(goal, "ether")
-    )
-    .send({
-      from: user_address,
-    });
-  console.log("Creating camaign: Successful");
-  return "Success";
-  }catch{
-    return "Fail";
-  }
+  const accounts = await web3.eth.getAccounts();
+  console.log(accounts);
+  // try{
+  //   await factory.methods
+  //   .createCampaign(
+  //     web3.utils.toWei(min_contribution, "ether"),
+  //     cname, 
+  //     cdesc, 
+  //     cimage,
+  //     web3.utils.toWei(goal, "ether")
+  //   )
+  //   .send({
+  //     from: accounts[0],
+  //   });
+  // console.log("Creating camaign: Successful");
+  // return "Success";
+  // }
+  await factory.methods
+  .createCampaign(
+    web3.utils.toWei(min_contribution, "ether"),
+    cname, 
+    cdesc, 
+    cimage,
+    web3.utils.toWei(goal, "ether")
+  )
+  .send({
+    from: accounts[0],
+  });
+console.log("Creating camaign: Successful");
+return "Success";
 
 }
 
@@ -205,6 +229,7 @@ module.exports = {
   rejectKYCRequest: rejectKYCRequest,
   addAddressToFundRaiser: addAddressToFundRaiser,
   addAddressToFundApprover: addAddressToFundApprover,
+  addAddressToFundContributor:addAddressToFundContributor,
   fetchKYCRequests: fetchKYCRequests,
   getDeployedCampaignsDetails: getDeployedCampaignsDetails,
   getRolesOfUser: getRolesOfUser,

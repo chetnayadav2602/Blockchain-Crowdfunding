@@ -5,7 +5,7 @@ var express = require('express');
 var cors = require('cors');
 const bodyParser = require('body-parser');
 
-var { fetchDeployedCampaigns, getSummary, createCampaign,createKYCRequest,approveKYCRequest,rejectKYCRequest,addAddressToFundRaiser,fetchKYCRequests,getDeployedCampaignsDetails,getRolesOfUser,addAddressToFundApprover,contribute} = require('./server/smart-contract/api');
+var { fetchDeployedCampaigns, getSummary, createCampaign,createKYCRequest,approveKYCRequest,rejectKYCRequest,addAddressToFundRaiser,fetchKYCRequests,getDeployedCampaignsDetails,getRolesOfUser,addAddressToFundApprover,contribute,addAddressToFundContributor} = require('./server/smart-contract/api');
 
 
 var router = express();
@@ -63,7 +63,7 @@ router.post('/createKYCRequest',function(req,res) {
 router.post('/approveKYCRequest',function(req,res) {
   console.log("Called Create approveKYCRequest");
   console.log(req.query);
-  approveKYCRequest(req.query.requested_address,req.query.role_applied_for,req.query.user_address).then((value) => {
+  approveKYCRequest("0x9783e40Da023d622d15a4E840b6f679f92390e17","fund_contributor","0x9783e40Da023d622d15a4E840b6f679f92390e17").then((value) => {
     console.log(value);
     res.send({'message':'KYC Request Approved.'});
     console.log("Got api response : approveKYCRequest");
@@ -92,7 +92,7 @@ router.get('/fetchKYCRequests',function(req,res) {
 
 router.post('/addAddressToFundRaiser',function(req,res) {
   console.log("Called addAddressToFundRaiser");
-  addAddressToFundRaiser(req.query.user_address).then((value) => {
+  addAddressToFundRaiser(req.body.user_address).then((value) => {
     res.send({'message':'Address added successfully'});
     console.log("Got api response : addAddressToFundRaiser");
   });
@@ -103,6 +103,14 @@ router.post('/addAddressToFundApprover',function(req,res) {
   addAddressToFundApprover(req.body.user_address).then((value) => {
     res.send({'message':'Address added successfully'});
     console.log("Got api response : addAddressToFundApprover");
+  });
+});
+
+router.post('/addAddressToFundContributor',function(req,res) {
+  console.log("Called addAddressToFundContributor");
+  addAddressToFundContributor(req.body.user_address).then((value) => {
+    res.send({'message':'Address added successfully'});
+    console.log("Got api response : addAddressToFundContributor");
   });
 });
 
