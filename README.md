@@ -4,7 +4,7 @@
 
 1. This can be found at Blockchain-Crowdfunding/Crowdfunding_Server/server/smart-contract
 
-<img src="Blockchain-Crowdfunding/Crowdfunding_Server/resources/Smart-contract_architecture.jpg" alt="Alt text" title="Optional title">
+<img src="Blockchain-Crowdfunding/Crowdfunding_Server/resources/Smart-contract_architecture.jpeg" alt="Alt text" title="Optional title">
 
 # Server Side setup
 1. Update your account mnemonic in the config.js.
