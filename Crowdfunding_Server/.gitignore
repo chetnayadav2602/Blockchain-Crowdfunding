@@ -15,7 +15,6 @@
 # production
 /build
 
-/server/smart-contract/config.js
 # misc
 .DS_Store
 *.pem

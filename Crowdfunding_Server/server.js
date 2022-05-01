@@ -63,7 +63,7 @@ router.post('/createKYCRequest',function(req,res) {
 router.post('/approveKYCRequest',function(req,res) {
   console.log("Called Create approveKYCRequest");
   console.log(req.query);
-  approveKYCRequest("0x9783e40Da023d622d15a4E840b6f679f92390e17","fund_contributor","0x9783e40Da023d622d15a4E840b6f679f92390e17").then((value) => {
+  approveKYCRequest(req.query.requested_address,req.query.role_applied_for,req.query.user_address).then((value) => {
     console.log(value);
     res.send({'message':'KYC Request Approved.'});
     console.log("Got api response : approveKYCRequest");

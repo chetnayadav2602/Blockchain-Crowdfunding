@@ -135,21 +135,6 @@ async function createCampaign(cname, cdesc, cimage,goal,min_contribution,user_ad
   console.log("Creating campaign");
   const accounts = await web3.eth.getAccounts();
   console.log(accounts);
-  // try{
-  //   await factory.methods
-  //   .createCampaign(
-  //     web3.utils.toWei(min_contribution, "ether"),
-  //     cname, 
-  //     cdesc, 
-  //     cimage,
-  //     web3.utils.toWei(goal, "ether")
-  //   )
-  //   .send({
-  //     from: accounts[0],
-  //   });
-  // console.log("Creating camaign: Successful");
-  // return "Success";
-  // }
   await factory.methods
   .createCampaign(
     web3.utils.toWei(min_contribution, "ether"),
